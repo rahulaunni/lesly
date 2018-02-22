@@ -71,27 +71,6 @@ var app = angular.module('appRoutes', ['ngRoute'])
 		controllerAs: 'manageStation',
 		permission:['admin']
 	})
-	.when('/admin/managebeds',{
-		templateUrl:'app/views/adminpages/managebed.html',
-		authenticated:true,
-		controller: 'manageBedCntrl',
-		controllerAs: 'manageBed',
-		permission:['admin']
-	})
-	.when('/admin/manageivsets',{
-		templateUrl:'app/views/adminpages/manageivset.html',
-		authenticated:true,
-		controller: 'manageIvsetCntrl',
-		controllerAs: 'manageIvset',
-		permission:['admin']
-	})
-	.when('/admin/help',{
-		templateUrl:'app/views/adminpages/adminhelp.html',
-		authenticated:true,
-		controller: 'adminhelpCntrl',
-		controllerAs: 'adminhelp',
-		permission:['admin']
-	})
 	.when('/logout',{
 		templateUrl:'app/views/pages/logout.html',
 		authenticated:true
@@ -101,13 +80,6 @@ var app = angular.module('appRoutes', ['ngRoute'])
 		authenticated:true,
 		controller: 'manageDripoCntrl',
 		controllerAs: 'manageDripo',
-		permission:['admin']
-	})
-	.when('/admin/update',{
-		templateUrl:'app/views/adminpages/update.html',
-		authenticated:true,
-		controller: 'updateCntrl',
-		controllerAs: 'update',
 		permission:['admin']
 	})
 	.when('/manageuserneed',{

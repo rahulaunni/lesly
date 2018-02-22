@@ -133,30 +133,6 @@ angular.module('mainController',['authServices','userServices','nurseServices'])
 	});
 
 	
-	$scope.mqttserverstatus='running';
-	User.getConnectedDripos().then(function (data) {
-		if(data.data.success){
-			$scope.connecteddripo=data.data.clients;
-		}
-		else{
-			$scope.mqttserverstatus='stopped';
-			$scope.connecteddripo=data.data.clients;
-
-		}
-	});
-	//function to get connected dripo clients to admin view
-	$interval(function () {
-	User.getConnectedDripos().then(function (data) {
-		if(data.data.success){
-			$scope.connecteddripo=data.data.clients;
-		}
-		else{
-			$scope.mqttserverstatus='stopped';
-			$scope.connecteddripo=data.data.clients;
-
-		}
-	});
-},30000)
 
 /********************* Admin Menu *********************************/
 $scope.adminMenuItems=[{menu:'Home',icon:'home',href:'/admin/home'},
