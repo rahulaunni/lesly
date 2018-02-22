@@ -1,0 +1,19 @@
+        	<md-content class="md-padding">
+          		<div layout="column">
+          			<md-content class="md-no-momentum">
+          				<form name="form.addrisk" ng-submit='addRisk(riskData);'  ng-hide="successMsg">
+	          			    <md-input-container class="md-icon-float md-block">
+	          			      	<label>Risk</label>
+	          			      	<md-icon class="md-default-theme" class="material-icons">warning</md-icon>
+	          			      	<input ng-model="riskData.risk" type="text-area" name="risk"  required>
+	          			      	<div ng-messages="form.addrisk.risk.$error" role="alert" multiple>
+	          			      	    <div ng-message="required" class="my-message">This field is required</div>
+	          			      	</div>
+	          			    </md-input-container>
+							<div layout="row" md-theme="altTheme">
+							    <md-button type="submit" ng-disabled="form.addrisk.$invalid" class="md-raised md-warn">Submit</md-button>
+							</div>
+						</form>
+	          		</md-content>
+          		</div>
+        	</md-content>

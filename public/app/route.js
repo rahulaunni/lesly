@@ -110,11 +110,46 @@ var app = angular.module('appRoutes', ['ngRoute'])
 		controllerAs: 'update',
 		permission:['admin']
 	})
-	.when('/managepatients',{
-		templateUrl:'app/views/pages/managepatient.html',
+	.when('/manageuserneed',{
+		templateUrl:'app/views/pages/manageuserneed.html',
 		authenticated:true,
-		controller: 'managePatientCntrl',
-		controllerAs: 'managePatient',
+		controller: 'manageUserNeedCntrl',
+		controllerAs: 'userneed',
+		permission:['nurse']
+	})
+	.when('/managedi',{
+		templateUrl:'app/views/pages/managedi.html',
+		authenticated:true,
+		controller: 'managediCntrl',
+		controllerAs: 'di',
+		permission:['nurse']
+	})
+	.when('/managedo',{
+		templateUrl:'app/views/pages/managedo.html',
+		authenticated:true,
+		controller: 'managedoCntrl',
+		controllerAs: 'do',
+		permission:['nurse']
+	})
+	.when('/managerisk',{
+		templateUrl:'app/views/pages/managerisk.html',
+		authenticated:true,
+		controller: 'manageriskCntrl',
+		controllerAs: 'risk',
+		permission:['nurse']
+	})
+	.when('/managedva',{
+		templateUrl:'app/views/pages/managedva.html',
+		authenticated:true,
+		controller: 'managedvaCntrl',
+		controllerAs: 'dva',
+		permission:['nurse']
+	})
+	.when('/managedve',{
+		templateUrl:'app/views/pages/managedve.html',
+		authenticated:true,
+		controller: 'managedveCntrl',
+		controllerAs: 'dve',
 		permission:['nurse']
 	})
 	.when('/help',{

@@ -3,10 +3,10 @@
 	<md-card ng-hide="register.hider" flex="30" flex-xs="90" style="padding:2%">
 		<form name="userForm" ng-submit='register.registerUser(userData);' layout="column">
 			<md-input-container>
-				<label>Hospital Name</label>
+				<label>Company Name</label>
 				<md-icon class="md-default-theme" class="material-icons">&#xE548;</md-icon>
 				<input ng-model="register.userData.hospitalName" type="text" name="hospitalName" class="validate" required>
-				<md-tooltip md-direction="bottom">Enter hospital or company name</md-tooltip>
+				<md-tooltip md-direction="bottom">Company name</md-tooltip>
 				<div ng-messages="userForm.hospitalName.$error" role="alert">
 					<div ng-message="required">This field is required</div>
 				</div>

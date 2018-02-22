@@ -1,6 +1,6 @@
 
 //files holds the angular app configuratin every dependencies, services and controllers are passed to myApp
-angular.module('myApp', ['ngMaterial','ngMessages','ngAnimate','userServices','authServices','adminServices','nurseServices','homeServices','appRoutes','userControllers','mainController','emailController','adminController','nurseController','homeController','angularGrid','slick'])
+angular.module('myApp', ['ngMaterial','ngMessages','ngAnimate','userServices','authServices','designcontrolServices','adminServices','nurseServices','homeServices','appRoutes','userControllers','mainController','emailController','manageUserNeedController','adminController','nurseController','homeController'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('altTheme')
     .primaryPalette('indigo')
@@ -31,15 +31,4 @@ angular.module('myApp', ['ngMaterial','ngMessages','ngAnimate','userServices','a
     $httpProvider.interceptors.push('AuthInterceptors');
 })
 
-//socket.io client config
-.factory('socket', ['$rootScope', function($rootScope) {
-   var socket = io.connect();
-  return {
-    on: function(eventName, callback){
-      socket.on(eventName, callback);
-    },
-    emit: function(eventName, data) {
-      socket.emit(eventName, data);
-    }
-  };
-}]);
+

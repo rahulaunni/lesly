@@ -1,9 +1,5 @@
 /*
-___      ___    __    __   ______    ____
-| |	    / _  \  | |   } ) (      )  / __ \
-| |    / /  \ \ | |   } | | ()  /  / /  \ |
-| |___||___  | || |___} | |  |\  \ | |__| |
-|_____|||   |__||______.) |__  \__\[__  [__]
+
  Version: 1.0.0 (dev)
   Author: rahuanni@evelabs.co
   company: evelabs.co
@@ -14,12 +10,12 @@ ___      ___    __    __   ______    ____
 var express = require('express');
 var User = require('../models/users');
 var Station = require('../models/stations');
-var Bed = require('../models/beds');
-var Ivset = require('../models/ivsets');
-var Dripo = require('../models/dripos');
-var Patient = require('../models/patients');
-var Medication = require('../models/medications');
-var Task = require('../models/tasks');
+var Usr = require('../models/usr');
+var Risk = require('../models/risk');
+var Di = require('../models/di');
+var Do = require('../models/do');
+var Dva = require('../models/dva');
+var Dve = require('../models/dve');
 var jwt = require('jsonwebtoken');
 var secret = 'lauraiswolverinesdaughter';
 var nodemailer = require('nodemailer');
@@ -427,6 +423,262 @@ router.get('/admin/getstaticip', function(req, res) {
 
 });
 
+//*********code for design control
+router.post('/userneed', function(req,res){
+
+	Usr.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,user) {
+		if(err) throw err
+		var usr = new Usr();
+		if(user.length == 0){
+			usr.id = 1;
+		}
+		else{
+			usr.id = user[0].id +1;
+		}
+		usr.date = new Date();
+		usr.data = req.body.userneed;
+		usr._project = ObjectId(req.decoded.stationid);
+		usr._user = ObjectId(req.decoded.uid);
+		usr._admin = req.decoded.admin;
+		usr.save(function (err) {
+			if(err) throw err;
+			else{
+				res.json({success:true,message:'User need added'});
+			}
+		})
+	});
+	
+
+});
+
+router.get('/userneed', function(req,res){
+	Usr.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+		if(err) throw err;
+		if(user.length == 0){
+			res.json({success:false,message:'User need not found'});
+		}
+		else{
+			res.json({success:true,userneed:user});
+			console.log(user);
+
+		}
+	});
+
+});
+
+
+router.post('/risk', function(req,res){
+
+	Risk.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,risk) {
+		if(err) throw err
+		var rsk = new Risk();
+		if(risk.length == 0){
+			rsk.id = 1;
+		}
+		else{
+			rsk.id = risk[0].id +1;
+		}
+		rsk.date = new Date();
+		rsk.data = req.body.risk;
+		rsk._project = ObjectId(req.decoded.stationid);
+		rsk._user = ObjectId(req.decoded.uid);
+		rsk._admin = req.decoded.admin;
+		rsk.save(function (err) {
+			if(err) throw err;
+			else{
+				res.json({success:true,message:'Risk added'});
+			}
+		})
+	});
+	
+
+});
+
+router.get('/loadusrandrisk', function(req,res){
+	Usr.find({_project:ObjectId(req.decoded.stationid)}).exec(function(err,user) {
+		if(err) throw err;
+		if(user.length == 0){
+			res.json({success:false,message:'User need not found'});
+		}
+		else{
+			Risk.find({_project:ObjectId(req.decoded.stationid)}).exec(function(err,risk) {
+				if(err) throw err;
+				if(risk.length == 0){
+					res.json({success:true,need:user});
+
+				}
+				else{
+					var needs = user.concat(risk)
+					res.json({success:true,need:needs});
+
+				}
+
+			});
+
+		}
+	});
+
+
+});
+
+
+router.post('/designinput', function(req,res){
+
+	Di.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,designip) {
+		if(err) throw err
+		var di = new Di();
+		if(designip.length == 0){
+			di.id = 1;
+		}
+		else{
+			di.id = designip[0].id +1;
+		}
+		Usr.find({_id:ObjectId(req.body.userneed)}).exec(function(err,user) {
+			if(err) throw err;
+			if(user.length == 0){
+
+				di.date = new Date();
+				di.data = req.body.di;
+				di._project = ObjectId(req.decoded.stationid);
+				di._user = ObjectId(req.decoded.uid);
+				di._admin = req.decoded.admin;
+				di._risk = ObjectId(req.body.userneed)
+				di.save(function (err,dicb) {
+					if(err) throw err;
+					else{
+						Risk.collection.update({_id:ObjectId(req.body.userneed)},{$set:{_di:dicb._id}},{upsert:false});
+						res.json({success:true,message:'Risk added'});
+					}
+				})
+
+			}
+			else{
+				di.date = new Date();
+				di.data = req.body.di;
+				di._project = ObjectId(req.decoded.stationid);
+				di._user = ObjectId(req.decoded.uid);
+				di._admin = req.decoded.admin;
+				di._usr = ObjectId(req.body.userneed)
+				di.save(function (err,dicb) {
+					if(err) throw err;
+					else{
+						Usr.collection.update({_id:ObjectId(req.body.userneed)},{$set:{_di:dicb._id}},{upsert:false});
+						res.json({success:true,message:'Risk added'});
+					}
+				})
+
+			}
+
+		});
+
+
+	});
+	
+
+});
+
+
+router.get('/designinput', function(req,res){
+	Di.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,di) {
+		if(err) throw err;
+		if(di.length == 0){
+			res.json({success:false,message:'User need not found'});
+		}
+		else{
+			console.log(di);
+			res.json({success:true,designinput:di});
+
+		}
+	});
+
+});
+
+router.post('/designoutput', function(req,res){
+	Do.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,desop) {
+		if(err) throw err
+		var dop = new Do();
+		if(desop.length == 0){
+			dop.id = 1;
+		}
+		else{
+			dop.id = desop[0].id +1;
+		}
+		dop.date = new Date();
+		dop.data = req.body.risk;
+		dop._project = ObjectId(req.decoded.stationid);
+		dop._user = ObjectId(req.decoded.uid);
+		dop._admin = req.decoded.admin;
+		dop._di = ObjectId(req.body.do);
+		dop.save(function (err,dopcb) {
+			if(err) throw err;
+			else{
+				Di.collection.update({_id:ObjectId(req.body.di)},{$set:{_do:dopcb._id}},{upsert:false});
+				res.json({success:true,message:'Risk added'});
+			}
+		})
+	});
+
+});
+
+
+router.post('/designvalidation', function(req,res){
+	Dva.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,desval) {
+		if(err) throw err
+		var dav = new Dva();
+		if(desval.length == 0){
+			dav.id = 1;
+		}
+		else{
+			dav.id = desval[0].id +1;
+		}
+		dav.date = new Date();
+		dav.data = req.body.dva;
+		dav._project = ObjectId(req.decoded.stationid);
+		dav._user = ObjectId(req.decoded.uid);
+		dav._admin = req.decoded.admin;
+		dav._usr = ObjectId(req.body.userneed);
+		dav.save(function (err,davcb) {
+			if(err) throw err;
+			else{
+				Usr.collection.update({_id:ObjectId(req.body.userneed)},{$set:{_dav:davcb._id}},{upsert:false});
+				res.json({success:true,message:'Design validation added'});
+			}
+		})
+	});
+
+});
+
+
+router.post('/designverification', function(req,res){
+	Dve.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,desver) {
+		if(err) throw err
+		var dve = new Dve();
+		if(desver.length == 0){
+			dve.id = 1;
+		}
+		else{
+			dve.id = desver[0].id +1;
+		}
+		dve.date = new Date();
+		dve.data = req.body.dve;
+		dve._project = ObjectId(req.decoded.stationid);
+		dve._user = ObjectId(req.decoded.uid);
+		dve._admin = req.decoded.admin;
+		dve._di = ObjectId(req.body.designinput);
+		dve.save(function (err,devcb) {
+			if(err) throw err;
+			else{
+				Di.collection.update({_id:ObjectId(req.body.designinput)},{$set:{_dev:devcb._id}},{upsert:false});
+				res.json({success:true,message:'Design validation added'});
+			}
+		})
+	});
+
+});
+
+
+
+
 //********************************************************************************************************************
 //***routes for local users management starts from here***
 //route to add a new user by admin
@@ -434,7 +686,7 @@ router.post('/admin/user', function(req,res){
 		var user = new User();
 		if(req.body.username && req.body.password && req.body.permission){
 				user.hospitalName = req.decoded.hospitalname;
-				user.userName = req.body.username+'@'+req.decoded.hospitalname+'.care';
+				user.userName = req.body.username+'@'+req.decoded.hospitalname+'.co';
 				user.password = req.body.password;
 				user.permission = req.body.permission;
 				user.active = true;

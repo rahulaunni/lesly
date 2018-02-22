@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rahulaunni/laura.git"
+    "url": "git+https://github.com/rahulaunni/lesly.git"
   },
   "author": "rahulaunni@evelabs.co",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rahulaunni/laura/issues"
+    "url": "https://github.com/rahulaunni/lesly/issues"
   },
-  "homepage": "https://github.com/rahulaunni/laura#readme",
+  "homepage": "https://github.com/rahulaunni/lesly#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
@@ -28,6 +28,7 @@
     "md5": "^2.2.1",
     "md5-file": "^3.2.3",
     "mongoose": "^4.13.4",
+    "mongoose-auto-increment": "^5.0.1",
     "morgan": "^1.9.0",
     "mqtt": "^2.15.1",
     "node-cron": "^1.2.1",

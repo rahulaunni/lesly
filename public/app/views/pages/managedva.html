@@ -1,0 +1,33 @@
+        	        	<md-content class="md-padding">
+        	        		<div layout="column">
+        	        			<md-content class="md-no-momentum">
+        	        				<form name="form.adddva" ng-submit='addDva(dvaData);'>
+
+        	        					<md-input-container class="md-icon-float md-block">
+        	        						<label>Select need</label>
+        	        						<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+        	        						<md-select type="text" aria-label="filter" ng-model="dvaData.userneed" name="usr" required>
+        	        							<md-optgroup label="needs">
+        	        								<md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"> {{userneed.data}}</md-option>
+        	        							</md-optgroup>
+        	        						</md-select>
+        	        						<div ng-messages="form.adddva.usr.$error" role="alert" multiple>
+        	        							<div ng-message="required" class="my-message">This field is required</div>
+        	        						</div>
+        	        					</md-input-container>
+
+        	        					<md-input-container class="md-icon-float md-block">
+        	        						<label>Design Validation</label>
+        	        						<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+        	        						<input ng-model="dvaData.dva" type="text-area" name="dva"  required>
+        	        						<div ng-messages="form.adddi.dva.$error" role="alert" multiple>
+        	        							<div ng-message="required" class="my-message">This field is required</div>
+        	        						</div>
+        	        					</md-input-container>
+        	        					<div layout="row" md-theme="altTheme">
+        	        						<md-button type="submit" ng-disabled="form.addUsr.$invalid" class="md-raised md-warn">Submit</md-button>
+        	        					</div>
+        	        				</form>
+        	        			</md-content>
+        	        		</div>
+        	        	</md-content>

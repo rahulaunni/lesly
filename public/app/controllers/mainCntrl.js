@@ -161,12 +161,8 @@ angular.module('mainController',['authServices','userServices','nurseServices'])
 /********************* Admin Menu *********************************/
 $scope.adminMenuItems=[{menu:'Home',icon:'home',href:'/admin/home'},
 					   {menu:'Manage User',icon:'account_circle',href:'/admin/manageusers'},
-					   {menu:'Manage Station',icon:'important_devices',href:'/admin/managestations'},
-					   {menu:'Manage Beds',icon:'hotel',href:'/admin/managebeds'},
-					   {menu:'Manage Ivset',icon:'opacity',href:'/admin/manageivsets'},
-					   {menu:'Manage Dripo',icon:'speaker_phone',href:'/admin/managedripos'},
-					   {menu:'Update Server',icon:'update',href:'/admin/update'},
-					   {menu:'Help',icon:'help',href:'/admin/help'}
+					   {menu:'Manage Projects',icon:'important_devices',href:'/admin/managestations'}
+					 
 ];
 //checking for the route change for changing the selected menu item
 $scope.selectedIndex = 0;
@@ -183,29 +179,6 @@ $rootScope.$on("$routeChangeStart",function () {
 		$scope.selectedIndex = 2;
 
 	}
-	else if($location.path() == '/admin/managebeds'){
-		$scope.selectedIndex = 3;
-
-	}
-	else if($location.path() == '/admin/manageivsets'){
-		$scope.selectedIndex = 4;
-
-	}
-	else if($location.path() == '/admin/managedripos'){
-		$scope.selectedIndex = 5;
-
-	}
-	else if($location.path() == '/admin/update'){
-		$scope.selectedIndex = 6;
-
-	}
-	else if($location.path() == '/admin/help'){
-		$scope.selectedIndex = 7;
-
-	}
-
-
-
 });
 //admin menu navigation
 $scope.adminNav = function (link) {
@@ -214,8 +187,13 @@ $scope.adminNav = function (link) {
 
 /********************* Nurse Menu *********************************/
 $scope.nurseMenuItems=[{menu:'Home',icon:'home',href:'/'},
-					   {menu:'Manage Patient',icon:'people',href:'/managepatients'},
-					   {menu:'Help',icon:'help',href:'/help'},
+					   {menu:'User Need',icon:'subject',href:'/manageuserneed'},
+					   {menu:'Risks',icon:'warning',href:'/managerisk'},
+					   {menu:'Design Input',icon:'input',href:'/managedi'},
+					   {menu:'Design Output',icon:'donut_small',href:'/managedo'},
+					   {menu:'Design Validation',icon:'done',href:'/managedva'},
+					   {menu:'Design Verification',icon:'done_all',href:'/managedve'},
+
 					  ];
 //checking for the route change for changing the selected menu item
 $rootScope.$on("$routeChangeStart",function () {
@@ -223,14 +201,31 @@ $rootScope.$on("$routeChangeStart",function () {
 		$scope.nurseselectedIndex = 0;
 
 	}
-	else if($location.path() == '/managepatients' || $location.path() == '/patientdetails'){
+	else if($location.path() == '/manageuserneed'){
 		$scope.nurseselectedIndex = 1;
 
 	}
-	else if($location.path() == '/help'){
+	else if($location.path() == '/managerisk'){
 		$scope.nurseselectedIndex = 2;
 
 	}
+	else if($location.path() == '/managedi'){
+		$scope.nurseselectedIndex = 3;
+
+	}
+	else if($location.path() == '/managedo'){
+		$scope.nurseselectedIndex = 4;
+
+	}
+	else if($location.path() == '/managedva'){
+		$scope.nurseselectedIndex = 5;
+
+	}
+	else if($location.path() == '/managedve'){
+		$scope.nurseselectedIndex = 6;
+
+	}
+
 });
 //admin menu navigation
 $scope.nurseNav = function (link) {

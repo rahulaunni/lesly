@@ -1,0 +1,49 @@
+        	<md-content class="md-padding">
+          		<div layout="column">
+          			<md-content class="md-no-momentum">
+          				<form name="form.adddi" ng-submit='addDi(diData);'>
+
+          					<md-input-container class="md-icon-float md-block">
+          					    <label>Select need</label>
+          					    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+          					    <md-select type="text" aria-label="filter" ng-model="diData.userneed" name="usr" required>
+          					        <md-optgroup label="needs">
+          					            <md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"><b> UN-{{userneed.id}}</b> --> {{userneed.data}}</md-option>
+          					            </md-optgroup>
+          					    </md-select>
+          					    <div ng-messages="form.adddi.usr.$error" role="alert" multiple>
+          					        <div ng-message="required" class="my-message">This field is required</div>
+          					    </div>
+          					</md-input-container>
+
+	          			    <md-input-container class="md-icon-float md-block">
+	          			      	<label>Design Input</label>
+	          			      	<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+	          			      	<input ng-model="diData.di" type="text-area" name="di"  required>
+	          			      	<div ng-messages="form.adddi.di.$error" role="alert" multiple>
+	          			      	    <div ng-message="required" class="my-message">This field is required</div>
+	          			      	</div>
+	          			    </md-input-container>
+							<div layout="row" md-theme="altTheme">
+							    <md-button type="submit" ng-disabled="form.addUsr.$invalid" class="md-raised md-warn">Submit</md-button>
+							</div>
+						</form>
+	          		</md-content>
+          		</div>
+
+<md-content layout-padding>
+  <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+        <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
+        <div flex="50" layout-padding ><b>Design Requirements</b></div>
+
+    </div>
+     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="designinput in designinputs">
+        <div flex="10" layout-padding style="border-right: 1px solid #111;" >DI-{{designinput.id}} </div>
+        <div flex="50" layout-padding >{{designinput.data}}</div>
+    </div>
+</md-content>
+
+
+
+
+        	</md-content>

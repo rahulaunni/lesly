@@ -1,17 +1,17 @@
 <div layout="column" layout-padding="" layout-fill>
 		<md-content>
 		    <md-tabs md-selected="myTabIndex" md-dynamic-height md-border-bottom md-swipe-content="true">
-		      	<md-tab label="Stations" ng-click="reload();">
+		      	<md-tab label="Projects" ng-click="reload();">
 		          	<md-content>
 		          		<div layout=row ng-hide="nostation">
 		          			<md-input-container class="md-icon-float md-block" flex="50">
-		          				<label>Search Station</label>
+		          				<label>Search Project</label>
 		          				<md-icon class="md-default-theme" class="material-icons">&#xE8B6;</md-icon>
 		          				<input ng-model="stationSearch" type="text">
 		          			</md-input-container>
 		          		</div>
 		          		<div ng-show="nostation" layout="row" layout-fill layout-align="center center">
-		          			Add Station and Start Managing
+		          			Add Project for design control
 		          		</div>
 		          		<md-list>
 		          		  	<md-list-item class="md-3-line" ng-repeat="station in stations | filter:stationSearch">
@@ -32,7 +32,7 @@
 		      	      				<md-content class="md-no-momentum">
 		      	      					<form name="form.editStation" ng-submit='manageStation.editStation(editstation);'  ng-hide="manageStation.editloader">
 		      								<md-input-container class="md-icon-float md-block">
-		      								  	<label>Station Name</label>
+		      								  	<label>Project Name</label>
 		      								  	<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
 		      								  	<input ng-model="manageStation.editstation.stationname" type="text" name="stationname"  required>
 		      								  	<div ng-messages="form.editStation.stationname.$error" role="alert" multiple>
@@ -55,13 +55,13 @@
 		      					</div>
 		      				</md-content>
 		      	      	</md-tab>
-		      	<md-tab label="Add Station" ng-if="manageStation.showOnEditStation == false">
+		      	<md-tab label="Add Project" ng-if="manageStation.showOnEditStation == false">
 		        	<md-content class="md-padding">
 		          		<div layout="column">
 		          			<md-content class="md-no-momentum">
 		          				<form name="form.addStation" ng-submit='manageStation.addStation(stationData);'  ng-hide="manageStation.loader">
 			          			    <md-input-container class="md-icon-float md-block">
-			          			      	<label>Station Name</label>
+			          			      	<label>Project Name</label>
 			          			      	<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
 			          			      	<input ng-model="manageStation.stationData.stationname" type="text" name="stationname"  required>
 			          			      	<div ng-messages="form.addStation.stationname.$error" role="alert" multiple>
