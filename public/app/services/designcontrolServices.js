@@ -10,6 +10,9 @@ angular.module('designcontrolServices',[])
 	DCFactory.addRisk = function (risk) {
 		return $http.post('/api/risk',risk);
 	}
+	DCFactory.loadRisk = function (risk) {
+		return $http.get('/api/risk',risk);
+	}
 
 	DCFactory.loadusrandrisk = function () {
 		return $http.get('/api/loadusrandrisk');

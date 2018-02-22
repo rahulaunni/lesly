@@ -35,6 +35,43 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.successMsg = false;
 	$scope.errorMsg = false;
 	$scope.loader = false;
+	$scope.vals=[1,2,3,4,5];
+	$scope.riskData={severity:0,probability:0,riskindex:"LOW"};
+	DC.loadRisk().then(function (data) {
+		if(data.data.success){
+			$scope.riskDataView= data.data.risks;
+		}
+		else{
+			$scope.riskDataView = false;
+		}
+
+	});
+
+	
+	function retriskIndex(sev,prob){
+					var riskin = [
+			  			[0,0,0,0,1],
+			 			[0,0,0,1,2],
+			 			[0,0,1,1,2],
+			 			[0,1,1,2,2],
+			 			[0,1,2,2,2],
+						];
+						var riskindex=riskin[prob][sev];
+						if(riskindex==0){
+							return "LOW";
+						}else if (riskindex==1){
+							return "MEDIUM";
+						}else{
+							return "HIGH";
+						}
+	}
+	$scope.riskData.riskindex=retriskIndex($scope.riskData.severity,$scope.riskData.probability);
+	
+	$scope.valChange = function () {
+	$scope.riskData.riskindex=retriskIndex($scope.riskData.severity,$scope.riskData.probability);
+
+	}
+	
 	$scope.addRisk = function (risk) {
 		DC.addRisk(risk).then(function (data) {
 			if(data.data.success){
