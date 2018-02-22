@@ -505,6 +505,18 @@ router.get('/userneed', function(req,res){
 
 });
 
+router.put('/userneed', function(req,res){
+	Usr.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.userneed}},{upsert:false});
+	res.json({success:true,message:'User need added'});
+
+});
+
+router.put('/userneed', function(req,res){
+	Usr.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.userneed}},{upsert:false});
+	res.json({success:true,message:'User need added'});
+
+});
+
 
 router.post('/risk', function(req,res){
 
@@ -585,7 +597,7 @@ router.post('/designinput', function(req,res){
 				di.save(function (err,dicb) {
 					if(err) throw err;
 					else{
-						Risk.collection.update({_id:ObjectId(req.body.userneed)},{$set:{_di:dicb._id}},{upsert:false});
+						Risk.collection.update({_id:ObjectId(req.body.userneed)},{$push:{_di:dicb._id}},{upsert:false});
 						res.json({success:true,message:'Risk added'});
 					}
 				})
@@ -601,7 +613,7 @@ router.post('/designinput', function(req,res){
 				di.save(function (err,dicb) {
 					if(err) throw err;
 					else{
-						Usr.collection.update({_id:ObjectId(req.body.userneed)},{$set:{_di:dicb._id}},{upsert:false});
+						Usr.collection.update({_id:ObjectId(req.body.userneed)},{$push:{_di:dicb._id}},{upsert:false});
 						res.json({success:true,message:'Risk added'});
 					}
 				})
@@ -630,6 +642,14 @@ router.get('/designinput', function(req,res){
 	});
 
 });
+
+
+
+
+
+
+
+
 
 router.post('/designoutput', function(req,res){
 	Do.find({_project:ObjectId(req.decoded.stationid)}).sort({id:-1}).exec(function(err,desop) {

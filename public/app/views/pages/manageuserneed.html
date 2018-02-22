@@ -1,4 +1,4 @@
-<md-card md-padding md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+<md-card md-padding md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-hide="showOneditUn">
 <md-content class="md-padding">
 	<div layout="column">
 			<h4>Add User Need</h4>
@@ -24,14 +24,51 @@
 	</div>
 </md-content>
 </md-card>
-<md-content layout-padding>
-	<div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
-       	<div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
-       	<div flex="50" layout-padding ><b>User Needs</b></div>
-
-    </div>
-     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="userneed in userneeds">
-       	<div flex="10" layout-padding style="border-right: 1px solid #111;" >UN{{userneed.id}} </div>
-       	<div flex="50" layout-padding >{{userneed.data}}</div>
-    </div>
+<md-card md-padding md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-show="showOneditUn">
+<md-content class="md-padding">
+	<div layout="column">
+			<h4>Edit User Need</h4>
+		<md-content class="md-no-momentum">
+			<form name="form.editUsr" ng-submit='editUsrNeed(eusrData);'  ng-hide="successMsg">
+				<md-input-container class="md-icon-float md-block">
+					<label>User Needs</label>
+					<md-icon class="md-default-theme" class="material-icons">subject</md-icon>
+					<input ng-model="eusrData.userneed" type="text-area" name="userneed"  required>
+					<div ng-messages="form.editUsr.username.$error" role="alert" multiple>
+						<div ng-message="required" class="my-message">This field is required</div>
+					</div>
+				</md-input-container>
+				<md-input-container class="md-icon-float md-block" style="display: none">
+					<label>id</label>
+					<md-icon class="md-default-theme" class="material-icons">subject</md-icon>
+					<input ng-model="eusrData.id" type="text" name="id"  required >
+				</md-input-container>
+				<div layout="row" md-theme="altTheme">
+					<md-button type="submit" ng-disabled="form.editUsr.$invalid" class="md-raised md-warn">Save</md-button>
+				</div>
+				<div layout="column" layout-fill layout-align="center center" ng-show="loader">
+					<div>{{successMsg}}</div>
+					<md-progress-linear md-mode="indeterminate"></md-progress-linear>
+				</div>
+			</form>
+		</md-content>
+	</div>
 </md-content>
+</md-card>
+<div id="printArea">
+	<md-content layout-padding >
+		<div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+	       	<div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
+	       	<div flex="50" layout-padding ><b>User Needs</b></div>
+
+	    </div>
+	     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="userneed in userneeds">
+	       	<div flex="10" layout-padding style="border-right: 1px solid #111;" >UN{{userneed.id}} </div>
+	       	<div flex="50" layout-padding >{{userneed.data}}</div>
+	       	<div flex="20" layout-padding ng-click="showeditUn(userneed);" class="md-primary">EDIT</div>
+	       	<div flex="20" layout-padding ng-click="deleteUn(userneed);" class="md-warn">DELETE</div>
+	    </div>
+	</md-content>
+</div>
+
+<md-button layout-padding ng-click="printIt();" class="md-warn">print</md-button>

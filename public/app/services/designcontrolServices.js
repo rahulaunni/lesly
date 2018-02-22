@@ -7,6 +7,13 @@ angular.module('designcontrolServices',[])
 	DCFactory.addUsrNeed = function (userneed) {
 		return $http.post('/api/userneed',userneed);
 	}
+	DCFactory.editUsrNeed = function (userneed) {
+		return $http.put('/api/userneed',userneed);
+	}
+	DCFactory.deleteUn = function (userneed) {
+		return $http.delete('/api/userneed',{params:{usrid:userneed._id}});
+	}
+
 	DCFactory.addRisk = function (risk) {
 		return $http.post('/api/risk',risk);
 	}

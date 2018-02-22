@@ -23,11 +23,52 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 			else{
 				$scope.errorMsg = data.data.message;
 			}
-		});
-
-		
+		});	
 
 	}
+	$scope.showOneditUn = false;
+	$scope.showeditUn = function (usrneed) {
+		$scope.eusrData={userneed:usrneed.data,id:usrneed._id}
+		$scope.id=usrneed._id
+		$scope.showOneditUn = true;
+	}
+	$scope.editUsrNeed = function (editusrneed) {
+		DC.editUsrNeed(editusrneed).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/manageuserneed')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+		});	
+
+	}
+	$scope.deleteUn = function (usrneed) {
+		DC.deleteUn(usrneed).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/manageuserneed')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+
+		})
+
+	}
+
+	$scope.printIt = function(){
+	   var innerContents = document.getElementById('printArea').innerHTML;
+	          var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
+	          popupWinindow.document.open();
+	          popupWinindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
+	          popupWinindow.document.close();
+	};
+
+
 	
 })
 
@@ -92,6 +133,14 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 		});
 
 	}
+
+	$scope.showOneditDi = false;
+	$scope.showeditDi = function (designinput) {
+		console.log(designinput);
+		$scope.ediData={di:designinput.data,id:designinput._id}
+		$scope.showOneditDi = true;
+	}
+
 })
 
 

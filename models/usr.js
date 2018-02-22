@@ -10,7 +10,7 @@ var usrSchema = new Schema({
     _project: {type: Schema.ObjectId, ref: 'Station' },
     _user:{ type: Schema.ObjectId, ref: 'User' },
     _admin:String,
-    _di:{ type: Schema.ObjectId, ref: 'Di' },
+    _di:[{ type: Schema.ObjectId, ref: 'Di' }],
     _dva:{ type: Schema.ObjectId, ref: 'Dva' },
 });
 
