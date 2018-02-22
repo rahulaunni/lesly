@@ -1,19 +1,99 @@
         	<md-content class="md-padding">
-          		<div layout="column">
-          			<md-content class="md-no-momentum">
-          				<form name="form.addrisk" ng-submit='addRisk(riskData);'  ng-hide="successMsg">
-	          			    <md-input-container class="md-icon-float md-block">
-	          			      	<label>Risk</label>
-	          			      	<md-icon class="md-default-theme" class="material-icons">warning</md-icon>
-	          			      	<input ng-model="riskData.risk" type="text-area" name="risk"  required>
-	          			      	<div ng-messages="form.addrisk.risk.$error" role="alert" multiple>
+          		<div>
+          				<md-card layout-padding="">
+          				<form  layout="column" flex="100" name="form.addrisk" ng-submit='addRisk(riskData);'  ng-hide="successMsg">
+          					<div layout="row">
+	          			    <md-input-container flex="50" class="md-icon-float md-block">
+	          			      	<label>Hazard</label>
+	          			    
+	          			      	<input ng-model="riskData.data" type="text-area" name="hazard"  required>
+	          			      	<div ng-messages="form.addrisk.hazard.$error" role="alert" multiple>
 	          			      	    <div ng-message="required" class="my-message">This field is required</div>
 	          			      	</div>
 	          			    </md-input-container>
+	          			    <md-input-container flex="50" class="md-icon-float md-block">
+	          			      	<label>Cause</label>
+	          			      
+	          			      	<input ng-model="riskData.cause" type="text-area" name="cause"  required>
+	          			      	<div ng-messages="form.addrisk.cause.$error" role="alert" multiple>
+	          			      	    <div ng-message="required" class="my-message">This field is required</div>
+	          			      	</div>
+	          			    </md-input-container>
+							</div>
+							<div layout="row">
+	          			    <md-input-container flex="50" class="md-icon-float md-block">
+	          			      	<label>Severity</label>
+	          			     	 <md-select ng-change="valChange()" type="text" aria-label="filter" ng-model="riskData.severity" name="usr" required>
+          					     <md-optgroup  label="Severity">
+          					            <md-option ng-value="val-1"  ng-repeat="val in vals">
+          					            	{{val}}
+          					            </md-option>
+          					        </md-optgroup>
+          					    </md-select>
+	          			      	<!-- <input ng-model="riskData.severity" ng-change="valChange()" type="number" name="severity"  required> -->
+	          			      	
+	          			    </md-input-container>
+
+							<md-input-container flex="50" class="md-icon-float md-block">
+	          			      	<label>Probability</label>
+	          			      	<md-select ng-change="valChange()" type="text" aria-label="filter" ng-model="riskData.probability" name="usr" required>
+          					     <md-optgroup  label="Probability">
+          					            <md-option ng-value="val-1"  ng-repeat="val in vals">
+          					            	{{val}}
+          					            </md-option>
+          					        </md-optgroup>
+          					    </md-select>
+	          			    </md-input-container>
+
+
+	          			    <md-input-container flex="50" class="md-icon-float md-block">
+	          			      	<label>Risk Index</label>
+	          			      	
+	          			      	<input ng-model="riskData.riskindex" type="text" disabled name="riskindex"  required>
+	          			      	<div ng-messages="form.addrisk.riskindex.$error" role="alert" multiple>
+	          			      	    <div ng-message="required" class="my-message">This field is required</div>
+	          			      	</div>
+	          			    </md-input-container>
+							</div>
+	          			     <md-input-container flex="50" class="md-icon-float md-block">
+	          			      	<label>Risk Control</label>
+	          			     
+	          			      <input ng-model="riskData.riskcontrol" type="text-area" name="riskcontrol"  required>
+	          			      	<div ng-messages="form.addrisk.riskcontrol.$error" role="alert" multiple>
+	          			      	    <div ng-message="required" class="my-message">This field is required</div>
+	          			      	</div>
+	          			    </md-input-container>
+
+
 							<div layout="row" md-theme="altTheme">
 							    <md-button type="submit" ng-disabled="form.addrisk.$invalid" class="md-raised md-warn">Submit</md-button>
 							</div>
 						</form>
-	          		</md-content>
+					</md-card>
           		</div>
+
+
+          		<md-content layout-padding>
+ <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+        <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Hazard</b></div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Cause</b></div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Severity</b></div>
+        <div flex="50" layout-padding  style="border-right: 1px solid #111"><b>Probability</b></div>
+        <div flex="50" layout-padding  style="border-right: 1px solid #111"><b>Risk Index</b></div>
+        <div flex="50" layout-padding  style="border-right: 1px solid #111" ><b>Risk Control</b></div>
+
+    </div>
+     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="risk in riskDataView">
+        <div flex="10" layout-padding style="border-right: 1px solid #111;" >RISK-{{risk.id}} </div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.data}}</div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.cause}}</div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.severity}}</div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.probability}}</div>
+        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.riskindex}}</div>
+         <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.riskcontrol}}</div>
+    </div>
+</md-content>
+
+
         	</md-content>

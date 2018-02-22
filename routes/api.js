@@ -530,7 +530,13 @@ router.post('/risk', function(req,res){
 			rsk.id = risk[0].id +1;
 		}
 		rsk.date = new Date();
-		rsk.data = req.body.risk;
+		rsk.system = req.body.system;
+		rsk.data = req.body.data;
+		rsk.cause= req.body.cause;
+		rsk.severity= req.body.severity;
+		rsk.probability = req.body.probability;
+		rsk.riskindex=req.body.riskindex;
+		rsk.riskcontrol=req.body.riskcontrol;
 		rsk._project = ObjectId(req.decoded.stationid);
 		rsk._user = ObjectId(req.decoded.uid);
 		rsk._admin = req.decoded.admin;
@@ -542,6 +548,22 @@ router.post('/risk', function(req,res){
 		})
 	});
 	
+
+});
+
+router.get('/risk', function(req,res){
+	Risk.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,risk) {
+		if(err) throw err;
+		if(risk.length == 0){
+			res.json({success:false,message:'Risks not added'});
+		}
+		else{
+			console.log(risk);
+			res.json({success:true,risks:risk});
+
+		}
+	});
+			
 
 });
 
