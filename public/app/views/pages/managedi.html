@@ -1,19 +1,48 @@
-<md-content class="md-padding">
-    <div layout="column">
+<md-content layout-padding>
+    <md-card layout="column" layout-padding >
         <md-content class="md-no-momentum"  ng-hide="showOneditDi">
             <form name="form.adddi" ng-submit='addDi(diData);'>
-                <md-input-container class="md-icon-float md-block">
+                <div layout="row">
+
+                <md-input-container flex="50" class="md-icon-float md-block">
                     <label>Select need</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
                     <md-select type="text" aria-label="filter" ng-model="diData.userneed" name="usr" required>
                         <md-optgroup label="needs">
-                            <md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"><b> UN-{{userneed.id}}</b> --> {{userneed.data}}</md-option>
+                            <md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"><b ng-if="userneed.type=='userneed'"> UN-{{userneed.id}}</b> <b ng-if="userneed.type=='risk'"> RISK-{{userneed.id}}</b>--> {{userneed.data}}</md-option>
                         </md-optgroup>
                     </md-select>
                     <div ng-messages="form.adddi.usr.$error" role="alert" multiple>
                         <div ng-message="required" class="my-message">This field is required</div>
                     </div>
                 </md-input-container>
+
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select Type</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="diData.type" name="usr" required>
+                        <md-optgroup label="Type">
+                            <md-option ng-value="type" ng-repeat="type in typevals">{{type}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddi.type.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select System</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="diData.system" name="usr" required>
+                        <md-optgroup label="Type">
+                            <md-option ng-value="system" ng-repeat="system in systemvals">{{system}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddi.system.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+            </div>
                 <md-input-container class="md-icon-float md-block">
                     <label>Design Input</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
@@ -28,12 +57,15 @@
            </form>
         </md-content>
 
+
         <md-content class="md-no-momentum" ng-show="showOneditDi">
             <form name="form.editdi" ng-submit='editDi(ediData);'>
-                <md-input-container class="md-icon-float md-block">
-                    <label>Select eed</label>
+                  <div layout="row">
+
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select need</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
-                    <md-select type="text" aria-label="filter" ng-model="ediData.userneed" name="usr" required>
+                    <md-select type="text" aria-label="filter" ng-model="ediData.idu" name="usr" required>
                         <md-optgroup label="needs">
                             <md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"><b> UN-{{userneed.id}}</b> --> {{userneed.data}}</md-option>
                         </md-optgroup>
@@ -42,6 +74,33 @@
                         <div ng-message="required" class="my-message">This field is required</div>
                     </div>
                 </md-input-container>
+
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select Type</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="ediData.type" name="usr" required>
+                        <md-optgroup label="Type">
+                            <md-option ng-value="type" ng-repeat="type in typevals">{{type}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddi.type.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select System</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="ediData.system" name="usr" required>
+                        <md-optgroup label="Type">
+                            <md-option ng-value="system" ng-repeat="system in systemvals">{{system}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddi.system.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+            </div>
                 <md-input-container class="md-icon-float md-block">
                     <label>Design Input</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
@@ -55,10 +114,56 @@
                 </div>
            </form>
         </md-content>
-    </div>
+    </md-card>
 </md-content>
 <md-content layout-padding>
-  <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+
+    <table style="width:100%">
+  <tr>
+    <th>FReference</th>
+    <th>Design Requirements</th> 
+    <th>Type</th>
+    <th>System</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td> 
+    <td> <md-select type="text" aria-label="filter" ng-model="typefilter" name="system" >
+                                 <md-optgroup label="system">
+                                     <md-option ng-value="">
+                                            ALL
+                                        </md-option>
+                                    <md-option ng-value="typeval"  ng-repeat="typeval in typevals">
+                                            {{typeval}}
+                                        </md-option>
+                                 </md-optgroup>
+        </md-select></td> 
+    <td> <md-select type="text" aria-label="filter" ng-model="sysfilter" name="sys" >
+                                 <md-optgroup label="system">
+                                     <md-option ng-value="">
+                                            ALL
+                                        </md-option>
+                                    <md-option ng-value="sysval"  ng-repeat="sysval in systemvals">
+                                            {{sysval}}
+                                        </md-option>
+                                 </md-optgroup>
+        </md-select></td> 
+    
+    <td></td>
+    <td></td>
+  </tr>
+  <tr ng-repeat="designinput in designinputs | filter:{type: typefilter, system:sysfilter}">
+    <td>DI-{{designinput.id}}</td>
+    <td>{{designinput.data}}</td> 
+    <td>{{designinput.type}}</td> 
+    <td>{{designinput.system}}</td> 
+    <td ng-click="showeditDi(designinput);">EDIT</td>
+    <td ng-click="deleteDi(designinput);">DELETE</td>
+  </tr>
+</table>
+  <!-- <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
         <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
         <div flex="50" layout-padding ><b>Design Requirements</b></div>
 
@@ -68,7 +173,7 @@
         <div flex="50" layout-padding >{{designinput.data}}</div>
         <div flex="20" layout-padding ng-click="showeditDi(designinput);" class="md-primary">EDIT</div>
         <div flex="20" layout-padding ng-click="deleteDi(designinput);" class="md-warn">DELETE</div>
-    </div>
+    </div> -->
 </md-content>
 
 

@@ -1,3 +1,4 @@
+<md-content layout-padding>
 <md-card md-padding md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-hide="showOneditUn">
 <md-content class="md-padding">
 	<div layout="column">
@@ -55,8 +56,27 @@
 	</div>
 </md-content>
 </md-card>
+</md-content>
+<md-content layout-padding>
 <div id="printArea">
-	<md-content layout-padding >
+
+    <table style="width:100%">
+  <tr>
+    <th>Reference</th>
+    <th>Design Requirements</th> 
+    <th></th>
+    <th></th>
+  </tr>
+  <tr ng-repeat="userneed in userneeds">
+    <td>UN{{userneed.id}}</td>
+    <td>{{userneed.data}}</td> 
+    <td ng-click="showeditUn(userneed);" >EDIT</td> 
+    <td ng-click="deleteUn(userneed);" >DELETE</td> 
+  </tr>
+</table>
+</md-content>
+
+	<!-- <md-content layout-padding >
 		<div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
 	       	<div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
 	       	<div flex="50" layout-padding ><b>User Needs</b></div>
@@ -68,7 +88,7 @@
 	       	<div flex="20" layout-padding ng-click="showeditUn(userneed);" class="md-primary">EDIT</div>
 	       	<div flex="20" layout-padding ng-click="deleteUn(userneed);" class="md-warn">DELETE</div>
 	    </div>
-	</md-content>
+	</md-content> -->
 </div>
 
 <md-button layout-padding ng-click="printIt();" class="md-warn">print</md-button>

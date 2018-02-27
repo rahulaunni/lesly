@@ -11,7 +11,7 @@ var usrSchema = new Schema({
     _user:{ type: Schema.ObjectId, ref: 'User' },
     _admin:String,
     _di:[{ type: Schema.ObjectId, ref: 'Di' }],
-    _dva:{ type: Schema.ObjectId, ref: 'Dva' },
+    _dva:{ type: Schema.ObjectId, ref: 'Dva' }
 });
 
 module.exports = mongoose.model('Usr',usrSchema);

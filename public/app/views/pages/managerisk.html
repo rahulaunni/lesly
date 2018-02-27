@@ -1,4 +1,4 @@
-        	<md-content class="md-padding">
+        	<md-content class="md-padding" ng-hide="showOneditRisk">
           		<div>
           				<md-card layout-padding="">
           				<form  layout="column" flex="100" name="form.addrisk" ng-submit='addRisk(riskData);'  ng-hide="successMsg">
@@ -19,14 +19,28 @@
 	          			      	    <div ng-message="required" class="my-message">This field is required</div>
 	          			      	</div>
 	          			    </md-input-container>
+	          			   <md-input-container flex="50" class="md-icon-float md-block">
+                    		<label>System</label>
+                  			  <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                  			  <md-select type="text" aria-label="filter" ng-model="riskData.system" name="system" required>
+                    			 <md-optgroup label="system">
+                       			    <md-option ng-value="sysval"  ng-repeat="sysval in sysvals">
+          					            	{{sysval}}
+          					            </md-option>
+                   			     </md-optgroup>
+                 			  </md-select>
+                			    <div ng-messages="form.addrisk.system.$error" role="alert">
+                  					<div ng-message="required" class="my-message">This field is required</div>
+               				    </div>
+                			</md-input-container>
 							</div>
 							<div layout="row">
 	          			    <md-input-container flex="50" class="md-icon-float md-block">
 	          			      	<label>Severity</label>
-	          			     	 <md-select ng-change="valChange()" type="text" aria-label="filter" ng-model="riskData.severity" name="usr" required>
+	          			     	 <md-select ng-change="valChange()" type="text" aria-label="filter" ng-model="riskData.severity" required>
           					     <md-optgroup  label="Severity">
-          					            <md-option ng-value="val-1"  ng-repeat="val in vals">
-          					            	{{val}}
+          					            <md-option ng-value="val"  ng-repeat="val in vals">
+          					            	{{val+1}}
           					            </md-option>
           					        </md-optgroup>
           					    </md-select>
@@ -38,8 +52,8 @@
 	          			      	<label>Probability</label>
 	          			      	<md-select ng-change="valChange()" type="text" aria-label="filter" ng-model="riskData.probability" name="usr" required>
           					     <md-optgroup  label="Probability">
-          					            <md-option ng-value="val-1"  ng-repeat="val in vals">
-          					            	{{val}}
+          					            <md-option ng-value="val"  ng-repeat="val in vals">
+          					            	{{val+1}}
           					            </md-option>
           					        </md-optgroup>
           					    </md-select>
@@ -48,11 +62,12 @@
 
 	          			    <md-input-container flex="50" class="md-icon-float md-block">
 	          			      	<label>Risk Index</label>
-	          			      	
+	          			      	<div class="{{riskData.riskindex}}">
 	          			      	<input ng-model="riskData.riskindex" type="text" disabled name="riskindex"  required>
 	          			      	<div ng-messages="form.addrisk.riskindex.$error" role="alert" multiple>
 	          			      	    <div ng-message="required" class="my-message">This field is required</div>
 	          			      	</div>
+	          			      </div>
 	          			    </md-input-container>
 							</div>
 	          			     <md-input-container flex="50" class="md-icon-float md-block">
@@ -66,14 +81,162 @@
 
 
 							<div layout="row" md-theme="altTheme">
-							    <md-button type="submit" ng-disabled="form.addrisk.$invalid" class="md-raised md-warn">Submit</md-button>
+							    <md-button type="submit" ng-disabled="form.addrisk.$invalid" class="md-raised md-warn">ADD</md-button>
 							</div>
 						</form>
 					</md-card>
           		</div>
+          		</md-content>
+				
+				        	<md-content class="md-padding" ng-show="showOneditRisk">
+				          		<div layout-padding>
+				          				<md-card layout-padding="">
+				          				<form  layout="column" flex="100" name="form.editrisk" ng-submit='editRisk(eriskData);'>
+				          					<div layout="row">
+					          			    <md-input-container flex="50" class="md-icon-float md-block">
+					          			      	<label>Hazard</label>
+					          			    
+					          			      	<input ng-model="eriskData.data" type="text-area" name="hazard"  required>
+					          			      	<div ng-messages="form.editrisk.hazard.$error" role="alert" multiple>
+					          			      	    <div ng-message="required" class="my-message">This field is required</div>
+					          			      	</div>
+					          			    </md-input-container>
+					          			    <md-input-container flex="50" class="md-icon-float md-block">
+					          			      	<label>Cause</label>
+					          			      
+					          			      	<input ng-model="eriskData.cause" type="text-area" name="cause"  required>
+					          			      	<div ng-messages="form.editrisk.cause.$error" role="alert" multiple>
+					          			      	    <div ng-message="required" class="my-message">This field is required</div>
+					          			      	</div>
+					          			    </md-input-container>
+					          			     <md-input-container flex="50" class="md-icon-float md-block">
+                    							<label>System</label>
+                  							  <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                  							  <md-select type="text" aria-label="filter" ng-model="eriskData.system" name="system" required>
+                    						 <md-optgroup label="system">
+                       					    <md-option ng-value="sysval"  ng-repeat="sysval in sysvals">
+          					              		{{sysval}}
+          					          		  </md-option>
+                   			    			 </md-optgroup>
+                 							  </md-select>
+                						    <div ng-messages="form.editrisk.system.$error" role="alert">
+                  								<div ng-message="required" class="my-message">This field is required</div>
+               							    </div>
+                							</md-input-container>
+											</div>
+											<div layout="row">
+					          			    <md-input-container flex="50" class="md-icon-float md-block">
+					          			      	<label>Severity</label>
+					          			     	 <md-select ng-change="evalChange()" type="text" aria-label="filter" ng-model="eriskData.severity" name="usr" required>
+				          					     <md-optgroup  label="Severity">
+				          					            <md-option ng-value="val"  ng-repeat="val in vals">
+				          					            	{{val+1}}
+				          					            </md-option>
+				          					        </md-optgroup>
+				          					    </md-select>
+					          			      	<!-- <input ng-model="riskData.severity" ng-change="valChange()" type="number" name="severity"  required> -->
+					          			      	
+					          			    </md-input-container>
+
+											<md-input-container flex="50" class="md-icon-float md-block">
+					          			      	<label>Probability</label>
+					          			      	<md-select ng-change="evalChange()" type="text" aria-label="filter" ng-model="eriskData.probability" name="usr" required>
+				          					     <md-optgroup  label="Probability">
+				          					            <md-option ng-value="val"  ng-repeat="val in vals">
+				          					            	{{val+1}}
+				          					            </md-option>
+				          					        </md-optgroup>
+				          					    </md-select>
+					          			    </md-input-container>
 
 
-          		<md-content layout-padding>
+					          			    <md-input-container flex="50" class="md-icon-float md-block">
+					          			    	<div class="{{eriskData.riskindex}}">
+					          			      	<label>Risk Index</label>
+					          			      	
+					          			      	<input ng-model="eriskData.riskindex"  type="text" disabled name="riskindex"  required>
+					          			      	<div ng-messages="form.editrisk.riskindex.$error" role="alert" multiple>
+					          			      	    <div ng-message="required" class="my-message">This field is required</div>
+					          			      	</div>
+					          			      </div>
+					          			    </md-input-container>
+											</div>
+					          			     <md-input-container flex="50" class="md-icon-float md-block">
+					          			      	<label>Risk Control</label>
+					          			     
+					          			      <input ng-model="eriskData.riskcontrol" type="text-area" name="riskcontrol"  required>
+					          			      	<div ng-messages="form.editrisk.riskcontrol.$error" role="alert" multiple>
+					          			      	    <div ng-message="required" class="my-message">This field is required</div>
+					          			      	</div>
+					          			    </md-input-container>
+
+
+											<div layout="row" md-theme="altTheme">
+											    <md-button type="submit" ng-disabled="form.editrisk.$invalid" class="md-raised md-warn">Submit</md-button>
+											</div>
+										</form>
+									</md-card>
+				          		</div>
+				          		</md-content>
+
+
+
+
+
+
+<md-content layout-padding>
+<md-content layout-padding=>
+	<table style="width:100%">
+  <tr>
+    <th>Reference</th>
+    <th>Hazard</th> 
+    <th>Cause</th>
+    <th>System</th>
+    <th>Severity</th>
+    <th>Probability</th>
+    <th>Risk Index</th>
+    <th>Risk Control</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+  	<td ></td>
+    <td></td>
+    <td></td> 
+    <td>
+    	<md-select type="text" aria-label="filter" ng-model="test" name="system" >
+                    			 <md-optgroup label="system">
+                    			 	 <md-option ng-value="">
+          					            	ALL
+          					            </md-option>
+                       			    <md-option ng-value="sysval"  ng-repeat="sysval in sysvals">
+          					            	{{sysval}}
+          					            </md-option>
+                   			     </md-optgroup>
+        </md-select>
+    </td> 
+    <td></td> 
+    <td ></td> 
+    <td ></td>
+    <td ></td> 
+    <td></td>
+    <td></td>
+  </tr>
+  <tr ng-repeat="risk in riskDataView | filter : test ">
+  	<td >RISK-{{risk.id}}</td>
+    <td>{{risk.data}}</td>
+    <td>{{risk.cause}}</td> 
+    <td>{{risk.system}}</td> 
+    <td>{{risk.severity+1}}</td> 
+    <td >{{risk.probability+1}}</td> 
+    <td class="{{risk.riskindex}}">{{risk.riskindex}}</td> 
+    <td >{{risk.riskcontrol}}</td> 
+    <td ng-click="showeditRisk(risk);">EDIT</td>
+    <td ng-click="deleteRisk(risk);">DELETE</td>  
+  </tr>
+</table>
+</md-content>
+<!-- 
  <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
         <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
         <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Hazard</b></div>
@@ -86,14 +249,13 @@
     </div>
      <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="risk in riskDataView">
         <div flex="10" layout-padding style="border-right: 1px solid #111;" >RISK-{{risk.id}} </div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.data}}</div>
+        <div ng-click="showeditRisk(risk);" flex="50" layout-padding style="border-right: 1px solid #111">{{risk.data}}</div>
         <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.cause}}</div>
         <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.severity}}</div>
         <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.probability}}</div>
         <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.riskindex}}</div>
          <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.riskcontrol}}</div>
-    </div>
+    </div> -->
 </md-content>
 
 
-        	</md-content>

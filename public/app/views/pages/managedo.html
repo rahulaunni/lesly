@@ -1,33 +1,60 @@
-          	<md-content class="md-padding">
-            		<div layout="column">
-            			<md-content class="md-no-momentum">
-            				<form name="form.adddo" ng-submit='addDo(doData);'>
+<md-content class="md-padding">
+    <div layout="column">
+        <md-content class="md-no-momentum"  ng-hide="showOneditDo">
+            <form name="form.adddo" ng-submit='addDo(doData);'>
+                <md-input-container class="md-icon-float md-block">
+                    <label>Select Design Input</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="doData.di" name="di" required>
+                        <md-optgroup label="Design input">
+                            <md-option ng-value="designinput._id" ng-repeat="designinput in designinputs"> {{designinput.data}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddo.di.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-icon-float md-block">
+                    <label>Design Input</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <input ng-model="doData.do" type="text-area" name="do"  required>
+                        <div ng-messages="form.adddo.do.$error" role="alert" multiple>
+                            <div ng-message="required" class="my-message">This field is required</div>
+                        </div>
+                </md-input-container>
+                <div layout="row" md-theme="altTheme">
+                     <md-button type="submit" ng-disabled="form.adddo.$invalid" class="md-raised md-warn">Submit</md-button>
+                </div>
+            </form>
+        </md-content>
+        <md-content class="md-no-momentum"  ng-show="showOneditDo">
+            <form name="form.editdo" ng-submit='editDo(edoData);'>
+                <md-input-container class="md-icon-float md-block">
+                    <label>Design Input</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <input ng-model="edoData.do" type="text-area" name="do"  required>
+                        <div ng-messages="form.editdo.do.$error" role="alert" multiple>
+                            <div ng-message="required" class="my-message">This field is required</div>
+                        </div>
+                </md-input-container>
+                <div layout="row" md-theme="altTheme">
+                     <md-button type="submit" ng-disabled="form.editdo.$invalid" class="md-raised md-warn">Submit</md-button>
+                </div>
+            </form>
+        </md-content>
+    </div>
+</md-content>
 
-            					<md-input-container class="md-icon-float md-block">
-            					    <label>Select Design Input</label>
-            					    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
-            					    <md-select type="text" aria-label="filter" ng-model="doData.di" name="di" required>
-            					        <md-optgroup label="Design input">
-            					            <md-option ng-value="designinput._id" ng-repeat="designinput in designinputs"> {{designinput.data}}</md-option>
-            					            </md-optgroup>
-            					    </md-select>
-            					    <div ng-messages="form.adddo.di.$error" role="alert" multiple>
-            					        <div ng-message="required" class="my-message">This field is required</div>
-            					    </div>
-            					</md-input-container>
+<md-content layout-padding>
+  <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+        <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
+        <div flex="50" layout-padding ><b>Design Outputs</b></div>
 
-  	          			    <md-input-container class="md-icon-float md-block">
-  	          			      	<label>Design Input</label>
-  	          			      	<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
-  	          			      	<input ng-model="doData.do" type="text-area" name="do"  required>
-  	          			      	<div ng-messages="form.adddo.do.$error" role="alert" multiple>
-  	          			      	    <div ng-message="required" class="my-message">This field is required</div>
-  	          			      	</div>
-  	          			    </md-input-container>
-  							<div layout="row" md-theme="altTheme">
-  							    <md-button type="submit" ng-disabled="form.adddo.$invalid" class="md-raised md-warn">Submit</md-button>
-  							</div>
-  						</form>
-  	          		</md-content>
-            		</div>
-          	</md-content>
+    </div>
+     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="designoutput in designoutputs">
+        <div flex="10" layout-padding style="border-right: 1px solid #111;" >DO-{{designoutput.id}} </div>
+        <div flex="50" layout-padding >{{designoutput.data}}</div>
+        <div flex="20" layout-padding ng-click="showeditDo(designoutput);" class="md-primary">EDIT</div>
+        <div flex="20" layout-padding ng-click="deleteDo(designoutput);" class="md-warn">DELETE</div>
+    </div>
+</md-content>

@@ -1,10 +1,10 @@
 <md-content class="md-padding">
         <div layout="column">
-                <md-content class="md-no-momentum">
+                <md-content class="md-no-momentum" ng-hide="showOneditDve">
                         <form name="form.adddve" ng-submit='addDve(dveData);'>
 
                                 <md-input-container class="md-icon-float md-block">
-                                        <label>Select need</label>
+                                        <label>Select Design Input</label>
                                         <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
                                         <md-select type="text" aria-label="filter" ng-model="dveData.designinput" name="di" required>
                                                 <md-optgroup label="needs">
@@ -29,5 +29,40 @@
                                 </div>
                         </form>
                 </md-content>
+
+                <md-content class="md-no-momentum" ng-show="showOneditDve">
+                        <form name="form.editdve" ng-submit='editDve(edveData);'>
+                                <md-input-container class="md-icon-float md-block">
+                                        <label>Design Verification</label>
+                                        <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                                        <input ng-model="edveData.dve" type="text-area" name="dve"  required>
+                                        <div ng-messages="form.editdve.dve.$error" role="alert" multiple>
+                                                <div ng-message="required" class="my-message">This field is required</div>
+                                        </div>
+                                </md-input-container>
+                                <div layout="row" md-theme="altTheme">
+                                        <md-button type="submit" ng-disabled="form.editdve.$invalid" class="md-raised md-warn">Submit</md-button>
+                                </div>
+                        </form>
+                </md-content>
         </div>
+</md-content>
+
+
+
+
+
+
+<md-content layout-padding>
+  <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+        <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
+        <div flex="50" layout-padding ><b>Design verification</b></div>
+
+    </div>
+     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="dve in dves">
+        <div flex="10" layout-padding style="border-right: 1px solid #111;" >DVE-{{dve.id}} </div>
+        <div flex="50" layout-padding >{{dve.data}}</div>
+        <div flex="20" layout-padding ng-click="showeditDve(dve);" class="md-primary">EDIT</div>
+        <div flex="20" layout-padding ng-click="deleteDve(dve);" class="md-warn">DELETE</div>
+    </div>
 </md-content>

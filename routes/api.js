@@ -511,9 +511,9 @@ router.put('/userneed', function(req,res){
 
 });
 
-router.put('/userneed', function(req,res){
-	Usr.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.userneed}},{upsert:false});
-	res.json({success:true,message:'User need added'});
+router.delete('/userneed', function(req,res){
+	Usr.collection.remove({_id:ObjectId(req.query.usrid)});
+	res.json({success:true,message:'User need deleted'});
 
 });
 
@@ -534,6 +534,7 @@ router.post('/risk', function(req,res){
 		rsk.data = req.body.data;
 		rsk.cause= req.body.cause;
 		rsk.severity= req.body.severity;
+		rsk.system=req.body.system;
 		rsk.probability = req.body.probability;
 		rsk.riskindex=req.body.riskindex;
 		rsk.riskcontrol=req.body.riskcontrol;
@@ -567,12 +568,22 @@ router.get('/risk', function(req,res){
 
 });
 
+router.put('/risk', function(req,res){
+	Risk.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.data,cause:req.body.cause,severity:req.body.severity,probability:req.body.probability,riskindex:req.body.riskindex,riskcontrol:req.body.riskcontrol}},{upsert:false});
+	res.json({success:true,message:'Risk updated'});
+});
+
+
+router.delete('/risk', function(req,res){
+	Risk.collection.remove({_id:ObjectId(req.query.id)});
+	res.json({success:true,message:'Risk  deleted'});
+
+});
+
+
 router.get('/loadusrandrisk', function(req,res){
 	Usr.find({_project:ObjectId(req.decoded.stationid)}).exec(function(err,user) {
 		if(err) throw err;
-		if(user.length == 0){
-			res.json({success:false,message:'User need not found'});
-		}
 		else{
 			Risk.find({_project:ObjectId(req.decoded.stationid)}).exec(function(err,risk) {
 				if(err) throw err;
@@ -615,12 +626,14 @@ router.post('/designinput', function(req,res){
 				di._project = ObjectId(req.decoded.stationid);
 				di._user = ObjectId(req.decoded.uid);
 				di._admin = req.decoded.admin;
+				di.system=req.body.system;
+				di.type=req.body.type;
 				di._risk = ObjectId(req.body.userneed)
 				di.save(function (err,dicb) {
 					if(err) throw err;
 					else{
 						Risk.collection.update({_id:ObjectId(req.body.userneed)},{$push:{_di:dicb._id}},{upsert:false});
-						res.json({success:true,message:'Risk added'});
+						res.json({success:true,message:'Design input added'});
 					}
 				})
 
@@ -628,6 +641,8 @@ router.post('/designinput', function(req,res){
 			else{
 				di.date = new Date();
 				di.data = req.body.di;
+				di.system=req.body.system;
+				di.type=req.body.type;
 				di._project = ObjectId(req.decoded.stationid);
 				di._user = ObjectId(req.decoded.uid);
 				di._admin = req.decoded.admin;
@@ -636,7 +651,7 @@ router.post('/designinput', function(req,res){
 					if(err) throw err;
 					else{
 						Usr.collection.update({_id:ObjectId(req.body.userneed)},{$push:{_di:dicb._id}},{upsert:false});
-						res.json({success:true,message:'Risk added'});
+						res.json({success:true,message:'design input added'});
 					}
 				})
 
@@ -652,7 +667,21 @@ router.post('/designinput', function(req,res){
 
 
 router.get('/designinput', function(req,res){
-	Di.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,di) {
+	Di.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).populate("_usr").populate("_risk").exec(function(err,di) {
+		if(err) throw err;
+		if(di.length == 0){
+			res.json({success:false,message:'Design input not found'});
+		}
+		else{
+			res.json({success:true,designinput:di});
+
+		}
+	});
+
+});
+
+router.get('/trace', function(req,res){
+	Di.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).populate("_usr").populate("_dva").populate("_risk").populate("_dve").populate("_do").exec(function(err,di) {
 		if(err) throw err;
 		if(di.length == 0){
 			res.json({success:false,message:'User need not found'});
@@ -668,8 +697,26 @@ router.get('/designinput', function(req,res){
 
 
 
+router.put('/designinput', function(req,res){
+	console.log(req.body);
+	Usr.find({_id:ObjectId(req.body.idu)}).exec(function(err,user) {
+	if(err) throw err;
+	if(user.length == 0){
+	Di.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.di,system:req.body.system,type:req.body.type,_risk:ObjectId(req.body.idu),_usr:null}},{upsert:false});
+	}else{
+	Di.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.di,system:req.body.system,type:req.body.type,_usr:ObjectId(req.body.idu),_risk:null}},{upsert:false});	
+	}
+});
+	res.json({success:true,message:'User need updated'});
 
+});
 
+router.delete('/designinput', function(req,res){
+	Di.collection.remove({_id:ObjectId(req.query.diid)});
+	Usr.collection.update({_di:ObjectId(req.query.diid)},{$pull:{_di:ObjectId(req.query.diid)}},{upsert:false});
+	res.json({success:true,message:'User need deleted'});
+
+});
 
 
 
@@ -684,11 +731,11 @@ router.post('/designoutput', function(req,res){
 			dop.id = desop[0].id +1;
 		}
 		dop.date = new Date();
-		dop.data = req.body.risk;
+		dop.data = req.body.do;
 		dop._project = ObjectId(req.decoded.stationid);
 		dop._user = ObjectId(req.decoded.uid);
 		dop._admin = req.decoded.admin;
-		dop._di = ObjectId(req.body.do);
+		dop._di = ObjectId(req.body.di);
 		dop.save(function (err,dopcb) {
 			if(err) throw err;
 			else{
@@ -699,6 +746,35 @@ router.post('/designoutput', function(req,res){
 	});
 
 });
+
+router.get('/designoutput', function(req,res){
+	Do.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,dops) {
+		if(err) throw err;
+		if(dops.length == 0){
+			res.json({success:false,message:'No design outputs'});
+		}
+		else{
+			res.json({success:true,designoutput:dops});
+
+		}
+	});
+
+});
+
+router.put('/designoutput', function(req,res){
+	Do.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.do}},{upsert:false});
+	res.json({success:true,message:'User need updated'});
+});
+
+router.delete('/designoutput', function(req,res){
+	Do.collection.remove({_id:ObjectId(req.query.doid)});
+	res.json({success:true,message:'User need deleted'});
+
+});
+
+
+
+
 
 
 router.post('/designvalidation', function(req,res){
@@ -717,16 +793,47 @@ router.post('/designvalidation', function(req,res){
 		dav._user = ObjectId(req.decoded.uid);
 		dav._admin = req.decoded.admin;
 		dav._usr = ObjectId(req.body.userneed);
+		usrid = ObjectId(req.body.userneed);
 		dav.save(function (err,davcb) {
 			if(err) throw err;
 			else{
-				Usr.collection.update({_id:ObjectId(req.body.userneed)},{$set:{_dav:davcb._id}},{upsert:false});
+				console.log(davcb);
+				console.log(usrid);
+				Usr.collection.update({_id:usrid},{$set:{_dva:davcb._id}},{upsert:false});
+				Di.collection.update({_usr:usrid},{$set:{_dva:davcb._id}},{upsert:false});
 				res.json({success:true,message:'Design validation added'});
 			}
 		})
 	});
 
 });
+
+router.get('/designvalidation', function(req,res){
+	Dva.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,dva) {
+		if(err) throw err;
+		if(dva.length == 0){
+			res.json({success:false,message:'No design validations'});
+		}
+		else{
+			res.json({success:true,dva:dva});
+
+		}
+	});
+
+});
+
+
+router.put('/designvalidation', function(req,res){
+	Dva.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.dva}},{upsert:false});
+	res.json({success:true,message:'User need updated'});
+});
+
+router.delete('/designvalidation', function(req,res){
+	Dva.collection.remove({_id:ObjectId(req.query.dvaid)});
+	res.json({success:true,message:'User need deleted'});
+
+});
+
 
 
 router.post('/designverification', function(req,res){
@@ -748,7 +855,7 @@ router.post('/designverification', function(req,res){
 		dve.save(function (err,devcb) {
 			if(err) throw err;
 			else{
-				Di.collection.update({_id:ObjectId(req.body.designinput)},{$set:{_dev:devcb._id}},{upsert:false});
+				Di.collection.update({_id:ObjectId(req.body.designinput)},{$set:{_dve:devcb._id}},{upsert:false});
 				res.json({success:true,message:'Design validation added'});
 			}
 		})
@@ -756,7 +863,30 @@ router.post('/designverification', function(req,res){
 
 });
 
+router.get('/designverification', function(req,res){
+	Dve.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,dve) {
+		if(err) throw err;
+		if(dve.length == 0){
+			res.json({success:false,message:'No design ver'});
+		}
+		else{
+			res.json({success:true,dve:dve});
 
+		}
+	});
+
+});
+
+router.put('/designverification', function(req,res){
+	Dve.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.dve}},{upsert:false});
+	res.json({success:true,message:'User need updated'});
+});
+
+router.delete('/designverification', function(req,res){
+	Dve.collection.remove({_id:ObjectId(req.query.dveid)});
+	res.json({success:true,message:'User need deleted'});
+
+});
 
 
 //********************************************************************************************************************

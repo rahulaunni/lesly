@@ -1,14 +1,13 @@
         	        	<md-content class="md-padding">
         	        		<div layout="column">
-        	        			<md-content class="md-no-momentum">
+        	        			<md-content class="md-no-momentum" ng-hide="showOneditDva">
         	        				<form name="form.adddva" ng-submit='addDva(dvaData);'>
-
         	        					<md-input-container class="md-icon-float md-block">
         	        						<label>Select need</label>
         	        						<md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
         	        						<md-select type="text" aria-label="filter" ng-model="dvaData.userneed" name="usr" required>
         	        							<md-optgroup label="needs">
-        	        								<md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"> {{userneed.data}}</md-option>
+        	        								<md-option ng-value="refuserneed._id" ng-repeat="refuserneed in refuserneeds"> {{refuserneed.data}}</md-option>
         	        							</md-optgroup>
         	        						</md-select>
         	        						<div ng-messages="form.adddva.usr.$error" role="alert" multiple>
@@ -29,5 +28,35 @@
         	        					</div>
         	        				</form>
         	        			</md-content>
+                                <md-content class="md-no-momentum" ng-show="showOneditDva">
+                                    <form name="form.editdva" ng-submit='editDva(edvaData);'>
+                                        <md-input-container class="md-icon-float md-block">
+                                            <label>Design Validation</label>
+                                            <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                                            <input ng-model="edvaData.dva" type="text-area" name="dva"  required>
+                                            <div ng-messages="form.editdva.dva.$error" role="alert" multiple>
+                                                <div ng-message="required" class="my-message">This field is required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <div layout="row" md-theme="altTheme">
+                                            <md-button type="submit" ng-disabled="form.editdva.$invalid" class="md-raised md-warn">Submit</md-button>
+                                        </div>
+                                    </form>
+                                </md-content>
         	        		</div>
         	        	</md-content>
+
+
+                        <md-content layout-padding>
+                          <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
+                                <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
+                                <div flex="50" layout-padding ><b>Design validation</b></div>
+
+                            </div>
+                             <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="dva in dvas">
+                                <div flex="10" layout-padding style="border-right: 1px solid #111;" >DVA-{{dva.id}} </div>
+                                <div flex="50" layout-padding >{{dva.data}}</div>
+                                <div flex="20" layout-padding ng-click="showeditDva(dva);" class="md-primary">EDIT</div>
+                                <div flex="20" layout-padding ng-click="deleteDva(dva);" class="md-warn">DELETE</div>
+                            </div>
+                        </md-content>

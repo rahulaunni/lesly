@@ -1,142 +1,24 @@
-<div style=background:#f1f1f1;" ng-cloak>
-<!-- grid for inprogress tasks -->
-<div style="padding: 2%" ng-if="noInprogressTasks == false">
-	<div layout="row" class="md-title" style="color:#818181;margin-bottom: 20px; padding-bottom:.5em;border-bottom: 1px dashed #CCCCCC">Ongoing Tasks</div>
-	<md-grid-list  md-cols="12" md-cols-sm="18" md-cols-md="24" md-cols-gt-md="30" md-row-height-md="1:1.2" md-row-height-gt-md="1:1.2" md-row-height="2:2" md-gutter="2%" >
-        <md-grid-tile class=" gridtile {{inprogresstask.type}} {{inprogresstask.infusionstatus}} "  md-colspan="6"  data-ng-repeat="inprogresstask in inprogresstasks" md-rowspan="{{inprogresstask.span}}">
-            <div class="title" ng-if="::inprogresstask.type=='infusion'">Infusion | {{inprogresstask.infusionstatus}}</div>
-            <div class="title" ng-if="::inprogresstask.type =='nursecall'">Nurse Call | {{inprogresstask.nursecallstatus}}</div>
-            <div class="bedname">{{::inprogresstask._bed.bedname}}</div>
-            <md-progress-linear ng-if="::inprogresstask.type=='infusion'" md-mode="determinate" value="{{inprogresstask.percentage}}"  class="md-primary"></md-progress-linear>
-            <md-progress-linear ng-if="::inprogresstask.type=='nursecall'" md-mode="indeterminate" class="md-warn"></md-progress-linear>
-            <div class="status">
-	            <div style="height: 100%" ng-if="::inprogresstask.type =='infusion'" >
-	            	<slick class="carausel" style="height: 100%" autoplay="true" autoplaySpeed="500" fade="false" dots=false touch-move=true arrows=false>
-	            		<div class="slider">
-	            			<p style="width: 25%;text-align: right;" layout="row" layout-align="right center"><md-icon class="material-icons" style="color: #FFFFFF">&#xE922;</md-icon></p>
-	            			<p style="width: 50%;font-size: 2em" layout="column" layout-wrap layout-align="center center"><span style="border-bottom: 1px solid #FFFFFF">{{inprogresstask.rate}}</span><span>{{inprogresstask._medication.medicinerate}}</span></p>
-	            			<p style="width: 25%;font-size: .8em;text-align: left;" layout="row" layout-align="center center">ml/hr</p>
-	            		</div>
-	            		<div class="slider">
-	            			<p style="width: 25%;text-align: right;" layout="row" layout-align="right center"><md-icon class="material-icons" style="color: #FFFFFF">&#xE855;</md-icon></p>
-	            			<p style="width: 50%;font-size: 2em" layout="column" layout-wrap layout-align="center center"><span style="border-bottom: 1px solid #FFFFFF">{{trunc(inprogresstask.timeRemaining /60)}}</span><span>{{inprogresstask.timeRemaining % 60}}</span></p>
-	            			<p style="width: 25%;font-size: 1em;text-align: left;" layout="column" layout-wrap layout-align="center center"><span style="border-bottom: 1px solid #FFFFFF">hrs</span><span>Mins</span></p></p>
-	            			
-	            		</div>
-	            		<div class="slider">
-	            			<p style="width: 25%;text-align: right;" layout="row" layout-align="right center"><md-icon class="material-icons" style="color: #FFFFFF">&#xE91C;</md-icon></p>
-	            			<p style="width: 50%;font-size: 2em" layout="column" layout-wrap layout-align="center center"><span style="border-bottom: 1px solid #FFFFFF">{{inprogresstask.infusedVolume}}</span><span>{{inprogresstask.totalVolume}}</span></p>
-	            			<p style="width: 25%;font-size: 1em;text-align: left;" layout="column" layout-wrap layout-align="center center">ml</p></p>
-	            			
-	            		</div>
-		            </slick>
-	            </div>
-	            <div ng-if="::inprogresstask.type =='nursecall'" >
-	                call
-	            </div>
-            </div>
-            <div class="action" ng-click="ackAlert($event,inprogresstask)">ACKNOWLEDGE</div>
-          	{{inprogresstask.devicecharge}}
-        </md-grid-tile>
-    </md-grid-list>
-</div>
 
-<div style="padding: 2%" ng-if="noAlertedTasks == false">
-	<div layout="row" class="md-title" style="color:#818181;margin-bottom: 20px; padding-bottom:.5em;border-bottom: 1px dashed #CCCCCC">Tasks Due</div>
-
-<md-grid-list  md-cols="12" md-cols-sm="18" md-cols-md="30" md-cols-gt-md="30" md-row-height-md="1:1.2" md-row-height-gt-md="1:1.2" md-row-height="2:2" md-gutter="2%" >
-	<md-grid-tile style="border-radius: 4px; overflow:hidden; box-shadow: 0px 0px 1px 1px rgba(0,0,0,.1);" class="alertedgrid" id="alerted"  md-colspan="6"  data-ng-repeat="alertedtask in alertedtasks" md-rowspan="5">
-		<div style="width:100%;height: 100%" layout="column" layout-align="center stretch">
-			<div flex="100" layout="row" style="color:#CCCCCC;background: #616161" layout-align="center center" class="md-body-2">{{::alertedtask.type}} | Delayed</div>
-			<div flex="100" layout="row" layout-align="center center" style="color:#EEEEEE;background: #424242" class="md-title" ng-click="showDetails($event,alertedtask);">{{::alertedtask._bed.bedname}}</div>
-			<div flex="100" layout="column" style="color:#cccccc;background: #424242" layout-align="center center" ng-click="showDetails($event,alertedtask);">
-				<div class="md-body-1" ng-if="alertedtask.time<=currentHour">Delayed: {{(currentHour)-alertedtask.time}}hr</div>
-				<div class="md-body-1" ng-if="alertedtask.time>currentHour">Delayed: {{(alertedtask.time)-currentHour}}hr</div>
-				<div class="md-body-1">{{alertedtask._medication.medicinename}}</div>
-			</div>
-			<div flex="100" layout="row" layout-align="center center" style="color:#fcfcfc;background: #616161">
-				<md-button flex="50" class="md-button md-no-style md-clickable md-ink-ripple" style="border-right: 1px solid #424242;height: 100%" class="md-body-2" layout="row" layout-align="center center" ng-click="showSkipConfirm($event,alertedtask);"><md-icon class="material-icons md-warn" style="border:1px dashed rgba(255,255,255,.2);border-radius:1em;margin:0px;transform:scale(1);padding:.3em;font-size:1em;font-weight:bold;">&#xE5CD;</md-icon>
-					<div  style="padding-left: .5em;">
-						Skip
-					</div>
-				</md-button>
-				<md-button flex="50" class="md-button md-no-style md-clickable md-ink-ripple" style="height: 100%" class="md-body-2" layout="row" layout-align="center center" ng-click="showCloseConfirm($event,alertedtask);"><md-icon class="material-icons" style="border:1px dashed rgba(255,255,255,.2);border-radius:1em;margin:0px;color:rgb(76,175,80);transform:scale(1);padding:.3em;font-size:1em;font-weight:bold;">&#xE876;</md-icon><div style="padding-left: .5em;">Done</div>
-				</md-button>
-			</div>	
-		</div>
-			<!-- hidden details -->
-			<div style="visibility: hidden">
-			    <div class="md-dialog-container" id="myDialog{{alertedtask._id}}" layout-padding>
-			        <md-dialog layout="column" layout-align="center center">
-			            <div class="md-subhead">Type :{{alertedtask.type}}</div>
-			            <div class="md-subhead">Time :{{alertedtask.time}}:00</div>
-			            <md-divider></md-divider>
-			            <div class="md-headline">Patient Details</div>
-			            <div class="md-subhead">Patient :{{alertedtask._patient.patientname}}</div>
-			            <div class="md-subhead">Age :{{alertedtask._patient.patientage}}</div> 
-			            <div class="md-subhead">Weight :{{alertedtask._patient.patientweight}}</div> 
-			            <md-divider></md-divider>
-			            <div class="md-headline">Medication Details</div>
-			            <div class="md-subhead">Medication :{{alertedtask._medication.medicinename}}</div>
-			            <div class="md-subhead">Rate :{{alertedtask._medication.medicinerate}} ml/hr</div> 
-			            <div class="md-subhead">Volume :{{alertedtask._medication.medicinevolume}} ml</div> 
-			        </md-dialog>
-			    </div>
-			  </div> 
-		</md-grid-tile>
-</md-grid-list>
-</div>
-
-<!-- upcoming tasks -->
-<div style="padding: 2%" ng-if="noOpenedTasks == false">
-	<div layout="row" class="md-title" style="color:#818181;margin-bottom: 20px; padding-bottom:.5em;border-bottom: 1px dashed #CCCCCC">Upcoming Tasks</div>
-
-<md-grid-list  md-cols="12" md-cols-sm="18" md-cols-md="30" md-cols-gt-md="30" md-row-height-md="1:1.2" md-row-height-gt-md="1:1.2" md-row-height="2:2" md-gutter="2%" ng-repeat="time in times" >
-	<div layout="row" class="md-title" style="color:#818181;margin-bottom: 20px; padding-bottom:.5em;border-bottom: 1px dashed #CCCCCC">{{::time}}:00</div>
-	<md-grid-tile style="border-radius: 4px; overflow:hidden; box-shadow: 0px 0px 1px 1px rgba(0,0,0,.1);"  md-colspan="6"  data-ng-repeat="openedtask in openedtasks" md-rowspan="4"  ng-if="openedtask.time==time" ng-click="showDetails($event,openedtask);">
-			<div style="width:100%;height: 100%" layout="column" layout-align="center stretch">
-				<div flex="100" layout="row" style="color:#CCCCCC;background: #616161" layout-align="center center" class="md-body-2">{{::openedtask.type}} | Upcoming</div>
-				<div flex="100" layout="row" layout-align="center center" style="color:#EEEEEE;background: #424242" class="md-title" ng-click="showDetails($event,alertedtask);">{{::openedtask._bed.bedname}}</div>
-				<div flex="100" layout="column" style="color:#cccccc;background: #616161" layout-align="center center" ng-click="showDetails($event,alertedtask);">
-					<div class="md-subhead">{{openedtask._medication.medicinename}}</div>
-					<div class="md-subhead">{{openedtask._medication.medicinevolume}} ml</div>
-				</div>	
-			</div>
-			<div style="visibility: hidden">
-			    <div class="md-dialog-container" id="myDialog{{openedtask._id}}">
-			        <md-dialog layout="column" layout-align="center center">
-			            <div class="md-subhead">Type :{{openedtask.type}}</div>
-			            <div class="md-subhead">Time :{{openedtask.time}}:00</div>
-			            <md-divider></md-divider>
-			            <div class="md-headline">Patient Details</div>
-			            <div class="md-subhead">Patient :{{openedtask._patient.patientname}}</div>
-			            <div class="md-subhead">Age :{{openedtask._patient.patientage}}</div> 
-			            <div class="md-subhead">Weight :{{openedtask._patient.patientweight}}</div> 
-			            <md-divider></md-divider>
-			            <div class="md-headline">Medication Details</div>
-			            <div class="md-subhead">Medication :{{openedtask._medication.medicinename}}</div>
-			            <div class="md-subhead">Rate :{{openedtask._medication.medicinerate}} ml/hr</div> 
-			            <div class="md-subhead">Volume :{{openedtask._medication.medicinevolume}} ml</div> 
-			        </md-dialog>
-			    </div>
-			  </div> 
-		</md-grid-tile>
-</md-grid-list>
-</div>
-</div>
-
-<!-- button for adding patient -->
-<md-button href="/managepatients" class="md-fab md-fab-bottom-right  md-button md-ink-ripple scrolling">
-	<md-icon class="material-icons">&#xE145;</md-icon>
-</md-button>
-
-<!-- audio alert -->
-<audio id="drugmed">
-  <source src="../../../assets/audio/drugmed.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
-<audio id="drughi">
-  <source src="../../../assets/audio/drughi.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
+<md-content layout-padding>
+<md-content layout-padding=>
+	<table style="width:100%">
+  <tr>
+  	<th>SL NO</th>
+    <th>Userneed/Risk</th>
+    <th>Design Input</th> 
+        <th>System</th>
+    <th>Design Output</th>
+    <th>Verfication</th>
+    <th>Validation</th>
+  </tr>
+  <tr ng-repeat="da in data">
+  	<td >{{$index+1}}</td>
+    <td>{{da._usr.data}}{{da._risk.data}}</td>
+    <td>{{da.data}}</td> 
+    <td>{{da.system}}</td> 
+    <td>{{da._do.data}}</td> 
+    <td>{{da._dve.data}}</td> 
+    <td >{{da._dva.data}}</td>  
+  </tr>
+</table>
+</md-content>

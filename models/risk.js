@@ -8,6 +8,7 @@ var riskSchema = new Schema({
     data: String,
     cause: String,
     severity:Number,
+    system:String,
     probability:Number,
     riskindex:String,
     riskcontrol:String,

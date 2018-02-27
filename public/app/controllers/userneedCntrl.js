@@ -76,8 +76,9 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.successMsg = false;
 	$scope.errorMsg = false;
 	$scope.loader = false;
-	$scope.vals=[1,2,3,4,5];
-	$scope.riskData={severity:0,probability:0,riskindex:"LOW"};
+	$scope.vals=[0,1,2,3,4];
+	$scope.sysvals=["COMMUNICATION","ENVIRONMENTAL","ELECTRICAL","SOFTWARE","MECHANICAL","USE","PRODUCTION","OTHERS"];
+	$scope.riskData={severity:0,probability:0,riskindex:"LOW",sys:"ONE"};
 	DC.loadRisk().then(function (data) {
 		if(data.data.success){
 			$scope.riskDataView= data.data.risks;
@@ -112,6 +113,10 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.riskData.riskindex=retriskIndex($scope.riskData.severity,$scope.riskData.probability);
 
 	}
+
+	$scope.evalChange = function () {
+	$scope.eriskData.riskindex=retriskIndex($scope.eriskData.severity,$scope.eriskData.probability);
+	}
 	
 	$scope.addRisk = function (risk) {
 		DC.addRisk(risk).then(function (data) {
@@ -126,6 +131,50 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 		});
 
 	}
+	$scope.showOneditRisk = false;
+	$scope.showeditRisk = function (risk) {
+		$scope.showOneditRisk = true;
+		$scope.eriskData={
+			id:risk._id,
+			data:risk.data,
+			cause:risk.cause,
+			severity:risk.severity,
+			probability:risk.probability,
+			riskindex:risk.riskindex,
+			riskcontrol:risk.riskcontrol,
+			system:risk.system,
+		}
+		console.log(risk);
+	}
+	$scope.editRisk = function (risk) {
+		console.log(risk);
+		DC.editRisk(risk).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managerisk')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+
+			}
+
+		});
+	}
+	$scope.deleteRisk = function (risk) {
+		DC.deleteRisk(risk).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managerisk')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+
+		})
+
+	}
 	
 })
 
@@ -134,6 +183,8 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.errorMsg = false;
 	$scope.loader = false;
 	$scope.userneeds = false;
+	$scope.typevals=["FUNCTIONAL","PERFORMANCE","SAFTEY","INTERFACE","USABILITY","REGULATORY"];
+	$scope.systemvals=["ELECTRONICS","MECHANICAL","SOFTWARE","PACKAGE","PRODUCTION","INSTALLATION"];
 	DC.loadusrandrisk().then(function (data) {
 		if(data.data.success){
 			$scope.userneeds = data.data.need;
@@ -147,6 +198,7 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	DC.loadDi().then(function (data) {
 		if(data.data.success){
 			$scope.designinputs = data.data.designinput;
+			//console.log(data.data.designinput);
 		}
 		else{
 			$scope.userneeds = false;
@@ -160,7 +212,7 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 			if(data.data.success){
 				$scope.successMsg = data.data.message;
 				$scope.loader = true;
-				$route.reload('/manageuserneed')
+				$route.reload('/managedi')
 			}
 			else{
 				$scope.errorMsg = data.data.message;
@@ -173,10 +225,53 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 
 	$scope.showOneditDi = false;
 	$scope.showeditDi = function (designinput) {
-		console.log(designinput);
-		$scope.ediData={di:designinput.data,id:designinput._id}
+
+		$scope.ediData={
+			di:designinput.data,
+			id:designinput._id,
+			system:designinput.system,
+			type:designinput.type,
+		}
+		if(designinput._usr){
+			$scope.ediData.idu=designinput._usr._id;
+		
+		}else{
+			$scope.ediData.idu=designinput._risk._id;
+			
+		}
+
 		$scope.showOneditDi = true;
 	}
+	$scope.editDi = function (di) {
+		DC.editDi(di).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedi')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+
+			}
+
+		});
+	}
+
+	$scope.deleteDi = function (designinput) {
+		DC.deleteDi(designinput).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedi')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+
+		})
+
+	}
+
 
 })
 
@@ -189,6 +284,16 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	DC.loadDi().then(function (data) {
 		if(data.data.success){
 			$scope.designinputs = data.data.designinput;
+		}
+		else{
+			$scope.userneeds = false;
+		}
+
+	});
+
+	DC.loadDo().then(function (data) {
+		if(data.data.success){
+			$scope.designoutputs = data.data.designoutput;
 		}
 		else{
 			$scope.userneeds = false;
@@ -212,22 +317,73 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 
 
 	}
+
+
+	$scope.showOneditDo = false;
+	$scope.showeditDo = function (designoutput) {
+		$scope.edoData={do:designoutput.data,id:designoutput._id}
+		$scope.showOneditDo = true;
+	}
+
+	$scope.editDo = function (desop) {
+		console.log(desop);
+		DC.editDo(desop).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedo')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+
+			}
+
+		});
+	}
+
+	$scope.deleteDo = function (designoutput) {
+		DC.deleteDo(designoutput).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedo')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+
+		})
+
+	}
+
 })
 
 .controller('managedvaCntrl',function ($http,$route,$window,$location,$timeout,$mdDialog,$scope,DC) {
+	var app = this;
 	$scope.successMsg = false;
 	$scope.errorMsg = false;
 	$scope.loader = false;
-	$scope.userneeds = false;
+	app.refuserneeds = false;
 	DC.getUsrNeed().then(function (data) {
 		if(data.data.success){
-			$scope.userneeds = data.data.userneed;
+			$scope.refuserneeds = data.data.userneed;
+		}
+		else{
+			app.refuserneeds = false;
+		}
+
+	});
+	DC.loadDva().then(function (data) {
+		if(data.data.success){
+			$scope.dvas = data.data.dva;
+			console.log(data.data);
 		}
 		else{
 			$scope.userneeds = false;
 		}
 
 	});
+
 
 	$scope.addDva = function (dva) {
 		console.log(dva);
@@ -245,6 +401,43 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 		});
 
 	}
+
+	$scope.showOneditDva = false;
+	$scope.showeditDva = function (dva) {
+		$scope.edvaData={dva:dva.data,id:dva._id}
+		$scope.showOneditDva= true;
+	}
+
+	$scope.editDva = function (dva) {
+		DC.editDva(dva).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedva')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+
+			}
+
+		});
+	}
+	$scope.deleteDva = function (dva) {
+		DC.deleteDva(dva).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedva')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+
+		})
+
+	}
+
+
 })
 
 
@@ -262,13 +455,21 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 		}
 
 	});
+	DC.loadDve().then(function (data) {
+		if(data.data.success){
+			$scope.dves = data.data.dve;
+		}
+		else{
+			$scope.userneeds = false;
+		}
 
+	});
 	$scope.addDve = function (dve) {
 		DC.addDve(dve).then(function (data) {
 			if(data.data.success){
 				$scope.successMsg = data.data.message;
 				$scope.loader = true;
-				$route.reload('/managedva')
+				$route.reload('/managedve')
 			}
 			else{
 				$scope.errorMsg = data.data.message;
@@ -276,6 +477,42 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 			}
 
 		});
+
+	}
+	$scope.showOneditDve = false;
+	$scope.showeditDve = function (dve) {
+		$scope.edveData={dve:dve.data,id:dve._id}
+		$scope.showOneditDve= true;
+	}
+
+
+
+	$scope.editDve = function (dve) {
+		DC.editDve(dve).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedve')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+
+			}
+
+		});
+	}
+	$scope.deleteDve = function (dve) {
+		DC.deleteDve(dve).then(function (data) {
+			if(data.data.success){
+				$scope.successMsg = data.data.message;
+				$scope.loader = true;
+				$route.reload('/managedve')
+			}
+			else{
+				$scope.errorMsg = data.data.message;
+			}
+
+		})
 
 	}
 });
