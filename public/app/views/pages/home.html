@@ -7,8 +7,8 @@
   	<th>SL NO</th>
     <th>Userneed/Risk</th>
     <th>Design Input</th> 
-    <th>System</th>
-    <th>Design Output</th>
+    <th id="optionrow">System</th>
+    <th >Design Output</th>
     <th>Verfication</th>
     <th>Validation</th>
     <th style="display:none;">hide</th>
@@ -19,7 +19,7 @@
   	<td >{{$index+1}}</td>
     <td>{{da._usr.data}}{{da._risk.data}}</td>
     <td>{{da.data}}</td> 
-    <td>{{da._do.system}}</td> 
+    <td id="optionrow">{{da._do.system}}</td> 
     <td>{{da._do.data}}</td> 
     <td>{{da._dve.data}}</td> 
     <td >{{da._dva.data}}</td>  

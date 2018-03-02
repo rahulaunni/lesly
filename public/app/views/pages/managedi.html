@@ -9,7 +9,7 @@
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
                     <md-select type="text" aria-label="filter" ng-model="diData.userneed" name="usr" required>
                         <md-optgroup label="needs">
-                            <md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"><b ng-if="userneed.type=='userneed'"> UN-{{userneed.id}}</b> <b ng-if="userneed.type=='risk'"> RISK-{{userneed.id}}</b>--> <span style="font-size: .8em">{{userneed.data}}</br>{{userneed.cause}}</span></md-option>
+                            <md-option ng-value="userneed._id" ng-repeat="userneed in userneeds"><b ng-if="userneed.type=='userneed'"> UN-{{userneed.id}}</b> <b class="{{userneed.riskindex}}" ng-if="userneed.type=='risk'"> RISK-{{userneed.id}}</b>--> <span style="font-size: .8em">{{userneed.data}}</br>{{userneed.cause}}</span></md-option>
                         </md-optgroup>
                     </md-select>
                     <div ng-messages="form.adddi.usr.$error" role="alert" multiple>
