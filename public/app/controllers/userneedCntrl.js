@@ -64,7 +64,7 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	   var innerContents = document.getElementById('printArea').innerHTML;
 	          var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
 	          popupWinindow.document.open();
-	          popupWinindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
+	          popupWinindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="../../../assets/css/style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
 	          popupWinindow.document.close();
 	};
 
@@ -175,6 +175,7 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 		})
 
 	}
+	
 	
 })
 

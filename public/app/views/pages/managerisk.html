@@ -186,6 +186,8 @@
 
 <md-content layout-padding>
 <md-content layout-padding=>
+	<div id="printArea">
+
 	<table style="width:100%">
   <tr>
     <th>Reference</th>
@@ -199,7 +201,7 @@
     <th></th>
     <th></th>
   </tr>
-  <tr>
+  <tr id="optionrow">
   	<td ></td>
     <td></td>
     <td></td> 
@@ -235,27 +237,10 @@
     <td ng-click="deleteRisk(risk);">DELETE</td>  
   </tr>
 </table>
+</div>
 </md-content>
-<!-- 
- <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
-        <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Hazard</b></div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Cause</b></div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111" ><b>Severity</b></div>
-        <div flex="50" layout-padding  style="border-right: 1px solid #111"><b>Probability</b></div>
-        <div flex="50" layout-padding  style="border-right: 1px solid #111"><b>Risk Index</b></div>
-        <div flex="50" layout-padding  style="border-right: 1px solid #111" ><b>Risk Control</b></div>
+</md-content>
+<md-button layout-padding ng-click="printIt();" class="md-warn">print</md-button>
 
-    </div>
-     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="risk in riskDataView">
-        <div flex="10" layout-padding style="border-right: 1px solid #111;" >RISK-{{risk.id}} </div>
-        <div ng-click="showeditRisk(risk);" flex="50" layout-padding style="border-right: 1px solid #111">{{risk.data}}</div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.cause}}</div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.severity}}</div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.probability}}</div>
-        <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.riskindex}}</div>
-         <div flex="50" layout-padding style="border-right: 1px solid #111">{{risk.riskcontrol}}</div>
-    </div> -->
-</md-content>
 
 

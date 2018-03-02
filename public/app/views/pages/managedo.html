@@ -75,6 +75,7 @@
 
 
 <md-content layout-padding>
+    <div id="printArea">
 
     <table style="width:100%">
   <tr>
@@ -84,7 +85,7 @@
     <th></th>
     <th></th>
   </tr>
-  <tr>
+  <tr id="optionrow">
     <td></td>
     <td></td> 
     <td> <md-select type="text" aria-label="filter" ng-model="sysfilter" name="sys" >
@@ -109,4 +110,7 @@
     <td ng-click="deleteDo(designoutput);">DELETE</td>
   </tr>
 </table>
+</div>
 </md-content>
+
+<md-button layout-padding ng-click="printIt();" class="md-warn">print</md-button>

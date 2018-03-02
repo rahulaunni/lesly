@@ -70,7 +70,7 @@
   <tr ng-repeat="userneed in userneeds">
     <td>UN{{userneed.id}}</td>
     <td>{{userneed.data}}</td> 
-    <td ng-click="showeditUn(userneed);" >EDIT</td> 
+    <td id="editswitch" ng-click="showeditUn(userneed);" >EDIT</td> 
     <td ng-click="deleteUn(userneed);" >DELETE</td> 
   </tr>
 </table>

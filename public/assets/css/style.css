@@ -267,6 +267,17 @@ th {
     color: white;
 }
 
+@media print {
+  /* put your CSS rules if they are to apply in print only */
+  table td:nth-last-child(1) {display:none}
+  table th:nth-last-child(1) {display:none}
+  table td:nth-last-child(2) {display:none}
+  table th:nth-last-child(2) {display:none}
+  table tr:first-child {background:gray}
 
+  #optionrow{
+    display: none;
+  }
+}
 
 

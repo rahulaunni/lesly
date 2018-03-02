@@ -1,6 +1,7 @@
 
 <md-content layout-padding>
 <md-content layout-padding=>
+  <div id="printArea">
 	<table style="width:100%">
   <tr>
   	<th>SL NO</th>
@@ -10,6 +11,9 @@
     <th>Design Output</th>
     <th>Verfication</th>
     <th>Validation</th>
+    <th style="display:none;">hide</th>
+    <th style="display:none;">hide2</th>
+
   </tr>
   <tr ng-repeat="da in data">
   	<td >{{$index+1}}</td>
@@ -19,6 +23,11 @@
     <td>{{da._do.data}}</td> 
     <td>{{da._dve.data}}</td> 
     <td >{{da._dva.data}}</td>  
+    <td style="display:none;">dummy</td>  
+    <td style="display:none;">dummy</td>  
   </tr>
 </table>
+</div>
 </md-content>
+
+<md-button layout-padding ng-click="printIt();" class="md-warn">print</md-button>
