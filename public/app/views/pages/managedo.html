@@ -2,7 +2,8 @@
     <div layout="column">
         <md-content class="md-no-momentum"  ng-hide="showOneditDo">
             <form name="form.adddo" ng-submit='addDo(doData);'>
-                <md-input-container class="md-icon-float md-block">
+                <div layout="row">
+                <md-input-container flex="50" class="md-icon-float md-block">
                     <label>Select Design Input</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
                     <md-select type="text" aria-label="filter" ng-model="doData.di" name="di" required>
@@ -14,6 +15,19 @@
                         <div ng-message="required" class="my-message">This field is required</div>
                     </div>
                 </md-input-container>
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select System</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="doData.system" name="system" required>
+                        <md-optgroup label="Type">
+                            <md-option ng-value="system" ng-repeat="system in systemvals">{{system}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddi.system.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+                </div>
                 <md-input-container class="md-icon-float md-block">
                     <label>Design Input</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
@@ -45,7 +59,7 @@
     </div>
 </md-content>
 
-<md-content layout-padding>
+<!-- <md-content layout-padding>
   <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
         <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
         <div flex="50" layout-padding ><b>Design Outputs</b></div>
@@ -57,4 +71,42 @@
         <div flex="20" layout-padding ng-click="showeditDo(designoutput);" class="md-primary">EDIT</div>
         <div flex="20" layout-padding ng-click="deleteDo(designoutput);" class="md-warn">DELETE</div>
     </div>
+</md-content> -->
+
+
+<md-content layout-padding>
+
+    <table style="width:100%">
+  <tr>
+    <th>FReference</th>
+    <th>Design Output</th> 
+    <th>System</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td> 
+    <td> <md-select type="text" aria-label="filter" ng-model="sysfilter" name="sys" >
+                                 <md-optgroup label="system">
+                                     <md-option ng-value="">
+                                            ALL
+                                        </md-option>
+                                    <md-option ng-value="sysval"  ng-repeat="sysval in systemvals">
+                                            {{sysval}}
+                                        </md-option>
+                                 </md-optgroup>
+        </md-select></td> 
+    
+    <td></td>
+    <td></td>
+  </tr>
+  <tr ng-repeat="designoutput in designoutputs | filter:{type: typefilter, system:sysfilter}">
+    <td>DO-{{designoutput.id}}</td>
+    <td>{{designoutput.data}}</td> 
+    <td>{{designoutput.system}}</td> 
+    <td ng-click="showeditDo(designoutput);">EDIT</td>
+    <td ng-click="deleteDo(designoutput);">DELETE</td>
+  </tr>
+</table>
 </md-content>

@@ -7,7 +7,6 @@ var diSchema = new Schema({
     data: String,
     date:Date,
     from:String,
-    system:String,
     type:String,
     _project: {type: Schema.ObjectId, ref: 'Station' },
     _user:{ type: Schema.ObjectId, ref: 'User' },

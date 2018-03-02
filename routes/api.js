@@ -626,7 +626,6 @@ router.post('/designinput', function(req,res){
 				di._project = ObjectId(req.decoded.stationid);
 				di._user = ObjectId(req.decoded.uid);
 				di._admin = req.decoded.admin;
-				di.system=req.body.system;
 				di.type=req.body.type;
 				di._risk = ObjectId(req.body.userneed)
 				di.save(function (err,dicb) {
@@ -641,7 +640,6 @@ router.post('/designinput', function(req,res){
 			else{
 				di.date = new Date();
 				di.data = req.body.di;
-				di.system=req.body.system;
 				di.type=req.body.type;
 				di._project = ObjectId(req.decoded.stationid);
 				di._user = ObjectId(req.decoded.uid);
@@ -732,6 +730,7 @@ router.post('/designoutput', function(req,res){
 		}
 		dop.date = new Date();
 		dop.data = req.body.do;
+		dop.system = req.body.system;
 		dop._project = ObjectId(req.decoded.stationid);
 		dop._user = ObjectId(req.decoded.uid);
 		dop._admin = req.decoded.admin;

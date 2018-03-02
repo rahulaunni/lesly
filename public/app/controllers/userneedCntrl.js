@@ -184,7 +184,6 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.loader = false;
 	$scope.userneeds = false;
 	$scope.typevals=["FUNCTIONAL","PERFORMANCE","SAFTEY","INTERFACE","USABILITY","REGULATORY"];
-	$scope.systemvals=["ELECTRONICS","MECHANICAL","SOFTWARE","PACKAGE","PRODUCTION","INSTALLATION"];
 	DC.loadusrandrisk().then(function (data) {
 		if(data.data.success){
 			$scope.userneeds = data.data.need;
@@ -277,6 +276,7 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 
 
 .controller('managedoCntrl',function ($http,$route,$window,$location,$timeout,$mdDialog,$scope,DC) {
+	$scope.systemvals=["ELECTRONICS","MECHANICAL","SOFTWARE","PACKAGE","PRODUCTION","INSTALLATION"];
 	$scope.successMsg = false;
 	$scope.errorMsg = false;
 	$scope.loader = false;
@@ -321,7 +321,8 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 
 	$scope.showOneditDo = false;
 	$scope.showeditDo = function (designoutput) {
-		$scope.edoData={do:designoutput.data,id:designoutput._id}
+		console.log(designoutput);
+		$scope.edoData={do:designoutput.data,id:designoutput._id,system:designoutput.system}
 		$scope.showOneditDo = true;
 	}
 

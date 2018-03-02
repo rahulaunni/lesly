@@ -6,6 +6,7 @@ var doSchema = new Schema({
     id:Number,
     data: String,
     date:Date,
+    system:String,
     from:String,
     _project: {type: Schema.ObjectId, ref: 'Station' },
     _user:{ type: Schema.ObjectId, ref: 'User' },

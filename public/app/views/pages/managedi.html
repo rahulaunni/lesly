@@ -29,19 +29,6 @@
                         <div ng-message="required" class="my-message">This field is required</div>
                     </div>
                 </md-input-container>
-
-                <md-input-container flex="50" class="md-icon-float md-block">
-                    <label>Select System</label>
-                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
-                    <md-select type="text" aria-label="filter" ng-model="diData.system" name="usr" required>
-                        <md-optgroup label="Type">
-                            <md-option ng-value="system" ng-repeat="system in systemvals">{{system}}</md-option>
-                        </md-optgroup>
-                    </md-select>
-                    <div ng-messages="form.adddi.system.$error" role="alert" multiple>
-                        <div ng-message="required" class="my-message">This field is required</div>
-                    </div>
-                </md-input-container>
             </div>
                 <md-input-container class="md-icon-float md-block">
                     <label>Design Input</label>
@@ -123,7 +110,6 @@
     <th>FReference</th>
     <th>Design Requirements</th> 
     <th>Type</th>
-    <th>System</th>
     <th></th>
     <th></th>
   </tr>
@@ -139,18 +125,7 @@
                                             {{typeval}}
                                         </md-option>
                                  </md-optgroup>
-        </md-select></td> 
-    <td> <md-select type="text" aria-label="filter" ng-model="sysfilter" name="sys" >
-                                 <md-optgroup label="system">
-                                     <md-option ng-value="">
-                                            ALL
-                                        </md-option>
-                                    <md-option ng-value="sysval"  ng-repeat="sysval in systemvals">
-                                            {{sysval}}
-                                        </md-option>
-                                 </md-optgroup>
-        </md-select></td> 
-    
+        </md-select></td>     
     <td></td>
     <td></td>
   </tr>
@@ -158,22 +133,10 @@
     <td>DI-{{designinput.id}}</td>
     <td>{{designinput.data}}</td> 
     <td>{{designinput.type}}</td> 
-    <td>{{designinput.system}}</td> 
     <td ng-click="showeditDi(designinput);">EDIT</td>
     <td ng-click="deleteDi(designinput);">DELETE</td>
   </tr>
 </table>
-  <!-- <div layout="row"  style="background: #cccccc;padding:0px;border-bottom: 1px solid #111">
-        <div flex="10" layout-padding style="border-right: 1px solid #111"><b>Reference</b></div>
-        <div flex="50" layout-padding ><b>Design Requirements</b></div>
-
-    </div>
-     <div layout="row" style="background: #efefef;padding:0px;border-bottom: 1px solid #111"  ng-repeat="designinput in designinputs">
-        <div flex="10" layout-padding style="border-right: 1px solid #111;" >DI-{{designinput.id}} </div>
-        <div flex="50" layout-padding >{{designinput.data}}</div>
-        <div flex="20" layout-padding ng-click="showeditDi(designinput);" class="md-primary">EDIT</div>
-        <div flex="20" layout-padding ng-click="deleteDi(designinput);" class="md-warn">DELETE</div>
-    </div> -->
 </md-content>
 
 

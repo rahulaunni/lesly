@@ -13,6 +13,7 @@ angular.module('mainController',['authServices','userServices','nurseServices'])
 	$scope.closeSideNavPanelNurse = function() {
 		$mdSidenav('nurseleft').close();
 	};
+
 	var app=this;
 	app.loadMe=false;
 	$rootScope.$on("$routeChangeStart",function () {
@@ -41,6 +42,10 @@ angular.module('mainController',['authServices','userServices','nurseServices'])
 
 					}
 				});
+				if(data.data.message == 'Invalid Token'){
+					app.logout();
+					$location.path('/login')
+				}
 
 			});
 
