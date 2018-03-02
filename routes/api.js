@@ -512,8 +512,37 @@ router.put('/userneed', function(req,res){
 });
 
 router.delete('/userneed', function(req,res){
-	Usr.collection.remove({_id:ObjectId(req.query.usrid)});
-	res.json({success:true,message:'User need deleted'});
+	Usr.find({_id:ObjectId(req.query.usrid),_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,usrneed) {
+		if(err) throw err;
+		startid = usrneed[0].id +1;
+		Usr.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+			if(err) throw err;
+			finalIndex = user.length -1;
+			finalid = user[finalIndex].id;
+			idArray = [];
+			for(var i=startid;i<=finalid;i++){
+				idArray.push(i)
+			}
+			console.log(idArray);
+			if(startid <= finalid){
+				for(var key in idArray){
+					console.log('inside loop');
+					Usr.collection.update({id:idArray[key],_project:ObjectId(req.decoded.stationid)},{$set:{id:(idArray[key]-1)}},{upsert:false});
+
+				}
+			Usr.collection.remove({_id:ObjectId(req.query.usrid)});
+			res.json({success:true,message:'User need deleted'});	
+
+			}
+			else{
+				Usr.collection.remove({_id:ObjectId(req.query.usrid)});
+				res.json({success:true,message:'User need deleted'});
+			}
+		
+		});
+
+
+	});
 
 });
 
@@ -575,8 +604,36 @@ router.put('/risk', function(req,res){
 
 
 router.delete('/risk', function(req,res){
-	Risk.collection.remove({_id:ObjectId(req.query.id)});
-	res.json({success:true,message:'Risk  deleted'});
+	Risk.find({_id:ObjectId(req.query.id),_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,usrneed) {
+		if(err) throw err;
+		startid = usrneed[0].id +1;
+		Risk.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+			if(err) throw err;
+			finalIndex = user.length -1;
+			finalid = user[finalIndex].id;
+			idArray = [];
+			for(var i=startid;i<=finalid;i++){
+				idArray.push(i)
+			}
+			console.log(idArray);
+			if(startid <= finalid){
+				for(var key in idArray){
+					Risk.collection.update({id:idArray[key],_project:ObjectId(req.decoded.stationid)},{$set:{id:(idArray[key]-1)}},{upsert:false});
+
+				}
+			Risk.collection.remove({_id:ObjectId(req.query.id)});
+			res.json({success:true,message:'Risk deleted'});	
+
+			}
+			else{
+				Risk.collection.remove({_id:ObjectId(req.query.id)});
+				res.json({success:true,message:'Risk deleted'});
+			}
+		
+		});
+
+
+	});
 
 });
 
@@ -710,9 +767,38 @@ router.put('/designinput', function(req,res){
 });
 
 router.delete('/designinput', function(req,res){
-	Di.collection.remove({_id:ObjectId(req.query.diid)});
-	Usr.collection.update({_di:ObjectId(req.query.diid)},{$pull:{_di:ObjectId(req.query.diid)}},{upsert:false});
-	res.json({success:true,message:'User need deleted'});
+	Di.find({_id:ObjectId(req.query.diid),_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,usrneed) {
+		if(err) throw err;
+		startid = usrneed[0].id +1;
+		Di.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+			if(err) throw err;
+			finalIndex = user.length -1;
+			finalid = user[finalIndex].id;
+			idArray = [];
+			for(var i=startid;i<=finalid;i++){
+				idArray.push(i)
+			}
+			console.log(idArray);
+			if(startid <= finalid){
+				for(var key in idArray){
+					Di.collection.update({id:idArray[key],_project:ObjectId(req.decoded.stationid)},{$set:{id:(idArray[key]-1)}},{upsert:false});
+
+				}
+			Di.collection.remove({_id:ObjectId(req.query.diid)});
+			Usr.collection.update({_di:ObjectId(req.query.diid)},{$pull:{_di:ObjectId(req.query.diid)}},{upsert:false});
+			res.json({success:true,message:'User need deleted'});	
+
+			}
+			else{
+		Di.collection.remove({_id:ObjectId(req.query.diid)});
+		Usr.collection.update({_di:ObjectId(req.query.diid)},{$pull:{_di:ObjectId(req.query.diid)}},{upsert:false});
+		res.json({success:true,message:'User need deleted'});
+			}
+		
+		});
+
+
+	});
 
 });
 
@@ -747,7 +833,7 @@ router.post('/designoutput', function(req,res){
 });
 
 router.get('/designoutput', function(req,res){
-	Do.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,dops) {
+	Do.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).populate("_di").exec(function(err,dops) {
 		if(err) throw err;
 		if(dops.length == 0){
 			res.json({success:false,message:'No design outputs'});
@@ -766,8 +852,41 @@ router.put('/designoutput', function(req,res){
 });
 
 router.delete('/designoutput', function(req,res){
-	Do.collection.remove({_id:ObjectId(req.query.doid)});
-	res.json({success:true,message:'User need deleted'});
+
+	Do.find({_id:ObjectId(req.query.doid),_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,usrneed) {
+		if(err) throw err;
+		startid = usrneed[0].id +1;
+		Do.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+			if(err) throw err;
+			finalIndex = user.length -1;
+			finalid = user[finalIndex].id;
+			idArray = [];
+			for(var i=startid;i<=finalid;i++){
+				idArray.push(i)
+			}
+			console.log(idArray);
+			if(startid <= finalid){
+				for(var key in idArray){
+					Do.collection.update({id:idArray[key],_project:ObjectId(req.decoded.stationid)},{$set:{id:(idArray[key]-1)}},{upsert:false});
+
+				}
+
+				Do.collection.remove({_id:ObjectId(req.query.doid)});
+				res.json({success:true,message:'DesignOutput deleted'});	
+
+			}
+			else{
+			Do.collection.remove({_id:ObjectId(req.query.doid)});
+			res.json({success:true,message:'DesignOutput deleted'});
+			}
+		
+		});
+
+
+	});
+
+
+
 
 });
 
@@ -828,8 +947,38 @@ router.put('/designvalidation', function(req,res){
 });
 
 router.delete('/designvalidation', function(req,res){
-	Dva.collection.remove({_id:ObjectId(req.query.dvaid)});
-	res.json({success:true,message:'User need deleted'});
+	Dva.find({_id:ObjectId(req.query.dvaid),_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,usrneed) {
+		if(err) throw err;
+		startid = usrneed[0].id +1;
+		Dva.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+			if(err) throw err;
+			finalIndex = user.length -1;
+			finalid = user[finalIndex].id;
+			idArray = [];
+			for(var i=startid;i<=finalid;i++){
+				idArray.push(i)
+			}
+			console.log(idArray);
+			if(startid <= finalid){
+				for(var key in idArray){
+					Dva.collection.update({id:idArray[key],_project:ObjectId(req.decoded.stationid)},{$set:{id:(idArray[key]-1)}},{upsert:false});
+
+				}
+
+				Dva.collection.remove({_id:ObjectId(req.query.dvaid)});
+				res.json({success:true,message:'DesignOutput deleted'});	
+
+			}
+			else{
+			Dva.collection.remove({_id:ObjectId(req.query.dvaid)});
+			res.json({success:true,message:'DesignOutput deleted'});
+			}
+		
+		});
+
+
+	});
+
 
 });
 
@@ -882,8 +1031,42 @@ router.put('/designverification', function(req,res){
 });
 
 router.delete('/designverification', function(req,res){
-	Dve.collection.remove({_id:ObjectId(req.query.dveid)});
-	res.json({success:true,message:'User need deleted'});
+	Dve.find({_id:ObjectId(req.query.dveid),_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,usrneed) {
+		if(err) throw err;
+		startid = usrneed[0].id +1;
+		Dve.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,user) {
+			if(err) throw err;
+			finalIndex = user.length -1;
+			finalid = user[finalIndex].id;
+			idArray = [];
+			for(var i=startid;i<=finalid;i++){
+				idArray.push(i)
+			}
+			console.log(idArray);
+			if(startid <= finalid){
+				for(var key in idArray){
+					Dve.collection.update({id:idArray[key],_project:ObjectId(req.decoded.stationid)},{$set:{id:(idArray[key]-1)}},{upsert:false});
+
+				}
+
+				Dve.collection.remove({_id:ObjectId(req.query.dveid)});
+				res.json({success:true,message:'User need deleted'});
+
+			}
+			else{
+				Dve.collection.remove({_id:ObjectId(req.query.dveid)});
+				res.json({success:true,message:'User need deleted'});
+
+			}
+		
+		});
+
+
+	});
+
+
+
+
 
 });
 

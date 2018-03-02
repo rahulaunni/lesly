@@ -74,19 +74,6 @@
                         <div ng-message="required" class="my-message">This field is required</div>
                     </div>
                 </md-input-container>
-
-                <md-input-container flex="50" class="md-icon-float md-block">
-                    <label>Select System</label>
-                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
-                    <md-select type="text" aria-label="filter" ng-model="ediData.system" name="usr" required>
-                        <md-optgroup label="Type">
-                            <md-option ng-value="system" ng-repeat="system in systemvals">{{system}}</md-option>
-                        </md-optgroup>
-                    </md-select>
-                    <div ng-messages="form.adddi.system.$error" role="alert" multiple>
-                        <div ng-message="required" class="my-message">This field is required</div>
-                    </div>
-                </md-input-container>
             </div>
                 <md-input-container class="md-icon-float md-block">
                     <label>Design Input</label>
@@ -107,7 +94,8 @@
 
     <table style="width:100%">
   <tr>
-    <th>FReference</th>
+    <th>Reference</th>
+    <th>USR/RISK</th>
     <th>Design Requirements</th> 
     <th>Type</th>
     <th></th>
@@ -129,8 +117,10 @@
     <td></td>
     <td></td>
   </tr>
-  <tr ng-repeat="designinput in designinputs | filter:{type: typefilter, system:sysfilter}">
+  <tr ng-repeat="designinput in designinputs | filter:{type: typefilter}">
     <td>DI-{{designinput.id}}</td>
+    <td ng-if="designinput._usr">UN-{{designinput._usr.id}}  </br><span style="font-size: .8em">{{designinput._usr.data}}</span></td>
+    <td ng-if="designinput._risk">RISK-{{designinput._risk.id}} </br> <span style="font-size: .8em">{{designinput._risk.data}}</span></td>
     <td>{{designinput.data}}</td> 
     <td>{{designinput.type}}</td> 
     <td ng-click="showeditDi(designinput);">EDIT</td>

@@ -6,16 +6,35 @@
   	<th>SL NO</th>
     <th>Userneed/Risk</th>
     <th>Design Input</th> 
-        <th>System</th>
+    <th>System</th>
     <th>Design Output</th>
     <th>Verfication</th>
     <th>Validation</th>
   </tr>
-  <tr ng-repeat="da in data">
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td> 
+    <td>
+   <md-select type="text" aria-label="filter" ng-model="sysfilter" name="sys" >
+                                    <md-optgroup label="system">
+                                        <md-option ng-value="">
+                                               ALL
+                                           </md-option>
+                                       <md-option ng-value="sysval"  ng-repeat="sysval in systemvals">
+                                               {{sysval}}
+                                           </md-option>
+                                    </md-optgroup>
+    </md-select></td> 
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr ng-repeat="da in data | filter:{_do:{system:sysfilter}}" >
   	<td >{{$index+1}}</td>
     <td>{{da._usr.data}}{{da._risk.data}}</td>
     <td>{{da.data}}</td> 
-    <td>{{da.system}}</td> 
+    <td>{{da._do.system}}</td> 
     <td>{{da._do.data}}</td> 
     <td>{{da._dve.data}}</td> 
     <td >{{da._dva.data}}</td>  
