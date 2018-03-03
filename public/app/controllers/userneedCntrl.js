@@ -323,7 +323,6 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.showeditDo = function (designoutput) {
 		console.log(designoutput);
 		$scope.edoData={do:designoutput.data,id:designoutput._id,system:designoutput.system}
-		$scope.ediData.di=designoutput._di.data;
 		$scope.showOneditDo = true;
 	}
 
