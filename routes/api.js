@@ -847,7 +847,7 @@ router.get('/designoutput', function(req,res){
 });
 
 router.put('/designoutput', function(req,res){
-	Do.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.do,_di:ObjectId(req.body.di)}},{upsert:false});
+	Do.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.do,_di:ObjectId(req.body.di),system:req.body.system}},{upsert:false});
 	res.json({success:true,message:'User need updated'});
 });
 
