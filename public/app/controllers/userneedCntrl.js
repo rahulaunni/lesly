@@ -321,13 +321,12 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 
 	$scope.showOneditDo = false;
 	$scope.showeditDo = function (designoutput) {
-		console.log(designoutput);
 		$scope.edoData={do:designoutput.data,id:designoutput._id,system:designoutput.system}
+		$scope.edoData.di=designoutput._di._id;
 		$scope.showOneditDo = true;
 	}
 
 	$scope.editDo = function (desop) {
-		console.log(desop);
 		DC.editDo(desop).then(function (data) {
 			if(data.data.success){
 				$scope.successMsg = data.data.message;
@@ -377,7 +376,6 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	DC.loadDva().then(function (data) {
 		if(data.data.success){
 			$scope.dvas = data.data.dva;
-			console.log(data.data);
 		}
 		else{
 			$scope.userneeds = false;
@@ -387,7 +385,6 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 
 
 	$scope.addDva = function (dva) {
-		console.log(dva);
 		DC.addDva(dva).then(function (data) {
 			if(data.data.success){
 				$scope.successMsg = data.data.message;
@@ -406,10 +403,12 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.showOneditDva = false;
 	$scope.showeditDva = function (dva) {
 		$scope.edvaData={dva:dva.data,id:dva._id}
+		$scope.edvaData.userneed=dva._usr._id;
 		$scope.showOneditDva= true;
 	}
 
 	$scope.editDva = function (dva) {
+
 		DC.editDva(dva).then(function (data) {
 			if(data.data.success){
 				$scope.successMsg = data.data.message;
@@ -483,6 +482,7 @@ angular.module('manageUserNeedController',['designcontrolServices','adminService
 	$scope.showOneditDve = false;
 	$scope.showeditDve = function (dve) {
 		$scope.edveData={dve:dve.data,id:dve._id}
+		$scope.edveData.designinput=dve._di._id;
 		$scope.showOneditDve= true;
 	}
 

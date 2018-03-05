@@ -31,6 +31,18 @@
                                 <md-content class="md-no-momentum" ng-show="showOneditDva">
                                     <form name="form.editdva" ng-submit='editDva(edvaData);'>
                                         <md-input-container class="md-icon-float md-block">
+                                            <label>Select need</label>
+                                            <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                                            <md-select type="text" aria-label="filter" ng-model="edvaData.userneed" name="usr" required>
+                                                <md-optgroup label="needs">
+                                                    <md-option ng-value="refuserneed._id" ng-repeat="refuserneed in refuserneeds"> {{refuserneed.data}}</md-option>
+                                                </md-optgroup>
+                                            </md-select>
+                                            <div ng-messages="form.adddva.usr.$error" role="alert" multiple>
+                                                <div ng-message="required" class="my-message">This field is required</div>
+                                            </div>
+                                        </md-input-container>
+                                        <md-input-container class="md-icon-float md-block">
                                             <label>Design Validation</label>
                                             <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
                                             <input ng-model="edvaData.dva" type="text-area" name="dva"  required>

@@ -847,7 +847,7 @@ router.get('/designoutput', function(req,res){
 });
 
 router.put('/designoutput', function(req,res){
-	Do.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.do}},{upsert:false});
+	Do.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.do,_di:ObjectId(req.body.di)}},{upsert:false});
 	res.json({success:true,message:'User need updated'});
 });
 
@@ -927,7 +927,7 @@ router.post('/designvalidation', function(req,res){
 });
 
 router.get('/designvalidation', function(req,res){
-	Dva.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,dva) {
+	Dva.find({_project:ObjectId(req.decoded.stationid)}).populate("_usr").sort({id:1}).exec(function(err,dva) {
 		if(err) throw err;
 		if(dva.length == 0){
 			res.json({success:false,message:'No design validations'});
@@ -942,7 +942,7 @@ router.get('/designvalidation', function(req,res){
 
 
 router.put('/designvalidation', function(req,res){
-	Dva.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.dva}},{upsert:false});
+	Dva.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.dva,_usr:req.body.userneed}},{upsert:false});
 	res.json({success:true,message:'User need updated'});
 });
 
@@ -1012,7 +1012,7 @@ router.post('/designverification', function(req,res){
 });
 
 router.get('/designverification', function(req,res){
-	Dve.find({_project:ObjectId(req.decoded.stationid)}).sort({id:1}).exec(function(err,dve) {
+	Dve.find({_project:ObjectId(req.decoded.stationid)}).populate("_di").sort({id:1}).exec(function(err,dve) {
 		if(err) throw err;
 		if(dve.length == 0){
 			res.json({success:false,message:'No design ver'});
@@ -1026,7 +1026,7 @@ router.get('/designverification', function(req,res){
 });
 
 router.put('/designverification', function(req,res){
-	Dve.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.dve}},{upsert:false});
+	Dve.collection.update({_id:ObjectId(req.body.id)},{$set:{data:req.body.dve,_di:req.body.designinput}},{upsert:false});
 	res.json({success:true,message:'User need updated'});
 });
 

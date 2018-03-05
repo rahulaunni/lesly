@@ -32,6 +32,18 @@
 
                 <md-content class="md-no-momentum" ng-show="showOneditDve">
                         <form name="form.editdve" ng-submit='editDve(edveData);'>
+                            <md-input-container class="md-icon-float md-block">
+                                    <label>Select Design Input</label>
+                                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                                    <md-select type="text" aria-label="filter" ng-model="edveData.designinput" name="di" required>
+                                            <md-optgroup label="needs">
+                                                    <md-option ng-value="designinput._id" ng-repeat="designinput in designinputs"> {{designinput.data}}</md-option>
+                                            </md-optgroup>
+                                    </md-select>
+                                    <div ng-messages="form.adddve.di.$error" role="alert" multiple>
+                                            <div ng-message="required" class="my-message">This field is required</div>
+                                    </div>
+                            </md-input-container>
                                 <md-input-container class="md-icon-float md-block">
                                         <label>Design Verification</label>
                                         <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>

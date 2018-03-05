@@ -169,7 +169,7 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="nurseleft" md-disable-backdrop ng-hide="isActive('/selectstation')==true" style="background: #424242">
         <md-toolbar layout="row" md-theme="dark" class = "md-accent md-hue-2" >
             <div class="md-toolbar-tools">
-                <div class="md-headline">{{main.hospitalname}}</div>
+                <div class="md-headline"><span style="font-size: .5em;">Company</span> {{main.hospitalname}}</div>
                 <span flex></span>
                 <md-button class="md-icon-button" aria-label="Close Side Panel" ng-click="closeSideNavPanelNurse()">
                     <md-tooltip>Close Side Panel</md-tooltip>
@@ -178,7 +178,7 @@
             </div>
         </md-toolbar> 
         <md-content style="background: #424242" md-whiteframe-4dp>
-            <div flex style="padding: 5%;color:#FFFFFF;background:#616161" class="md-title" >{{main.station}}</div>
+            <div flex style="padding: 5%;color:#FFFFFF;background:#616161" class="md-title" ><span style="font-size: .5em;">Project</span> {{main.station}}</div>
               <md-list>
                 <md-list-item data-ng-repeat="nurseMenuItem in nurseMenuItems" ng-class="{nurseselectedIndex: nurseselectedIndex===$index}" ng-click="nurseNav(nurseMenuItem.href)">
                   <md-icon class="md-default-theme" style="color: rgb(210,210,210)"  class="material-icons">{{nurseMenuItem.icon}}</md-icon>

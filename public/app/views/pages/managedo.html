@@ -43,6 +43,33 @@
         </md-content>
         <md-content class="md-no-momentum"  ng-show="showOneditDo">
             <form name="form.editdo" ng-submit='editDo(edoData);'>
+                <div layout="row">
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select Design Input</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="edoData.di" name="di" required>
+                        <md-optgroup label="Design input">
+                            <md-option ng-value="designinput._id" ng-repeat="designinput in designinputs"> {{designinput.data}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddo.di.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="50" class="md-icon-float md-block">
+                    <label>Select System</label>
+                    <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
+                    <md-select type="text" aria-label="filter" ng-model="edoData.system" name="system" required>
+                        <md-optgroup label="Type">
+                            <md-option ng-value="system" ng-repeat="system in systemvals">{{system}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                    <div ng-messages="form.adddi.system.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">This field is required</div>
+                    </div>
+                </md-input-container>
+                </div>
+
                 <md-input-container class="md-icon-float md-block">
                     <label>Design Input</label>
                     <md-icon class="md-default-theme" class="material-icons">&#xE912;</md-icon>
